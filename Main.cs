@@ -21,5 +21,11 @@ namespace CodeNote
         {
 
         }
+
+        private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //AboutBox.ActiveForm;
+            Console.WriteLine("aa");
+        }
     }
 }
