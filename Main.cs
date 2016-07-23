@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -19,13 +20,19 @@ namespace CodeNote
 
         private void Main_Load(object sender, EventArgs e)
         {
-
+            mainEditor.Navigate(System.Environment.CurrentDirectory.ToString() + @"\html\default.html");
+            Debug.WriteLine(System.Environment.CurrentDirectory.ToString() + @"\html\default.html");
         }
 
         private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //AboutBox.ActiveForm;
             Console.WriteLine("aa");
+        }
+
+        private void mainEditor_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+
         }
     }
 }
