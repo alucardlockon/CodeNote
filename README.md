@@ -1,0 +1,3 @@
+# CodeNote
+A note windows program for who often forget thier codes...
+> Use VS2013
