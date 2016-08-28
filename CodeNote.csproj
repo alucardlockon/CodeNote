@@ -77,6 +77,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tomato_work.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tomato_work.Designer.cs">
+      <DependentUpon>Tomato_work.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -93,6 +99,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="tomato_work.resx">
+      <DependentUpon>Tomato_work.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="html\css\bootstrap-theme.css.map" />
     <None Include="html\css\bootstrap-theme.min.css.map" />
     <None Include="html\css\bootstrap.css.map" />
@@ -137,6 +146,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="config\tomato_list.xml" />
+    <Content Include="config\tomato_cfg.xml" />
     <Content Include="html\css\bootstrap-markdown.min.css" />
     <Content Include="html\css\bootstrap-theme.css" />
     <Content Include="html\css\bootstrap-theme.min.css" />

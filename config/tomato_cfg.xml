@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <tomato_tm>
+    <minutes>
+      25
+    </minutes>
+    <seconds>
+      0
+    </seconds>
+  </tomato_tm>
+  <break_tm>
+    <minutes>
+      5
+    </minutes>
+    <seconds>
+      0
+    </seconds>
+  </break_tm>
+</config>
