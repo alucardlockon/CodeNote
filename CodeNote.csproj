@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>发布\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -22,10 +23,11 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <AutorunEnabled>true</AutorunEnabled>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -49,6 +51,21 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>codenote.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>D21BAD0728CB347871914247A1C34F98AC109392</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>CodeNote_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -69,9 +86,10 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="domain\tomato\Tomato_cfg.cs" />
-    <Compile Include="domain\tomato\Tomato_list.cs" />
-    <Compile Include="domain\tomato\Tomato_user.cs" />
+    <Compile Include="domain\tomato\override.cs" />
+    <Compile Include="domain\tomato\TomatoCfg.cs" />
+    <Compile Include="domain\tomato\TomatoList.cs" />
+    <Compile Include="domain\tomato\TomatoUser.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +132,7 @@
     <EmbeddedResource Include="tomato_work.resx">
       <DependentUpon>Tomato_work.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="CodeNote_TemporaryKey.pfx" />
     <None Include="html\css\bootstrap-theme.css.map" />
     <None Include="html\css\bootstrap-theme.min.css.map" />
     <None Include="html\css\bootstrap.css.map" />
@@ -158,6 +177,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="codenote.ico" />
     <Content Include="config\tomato_user.xml" />
     <Content Include="config\tomato_list.xml" />
     <Content Include="config\tomato_cfg.xml" />

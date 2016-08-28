@@ -5,7 +5,8 @@ using System.Text;
 
 namespace CodeNote.domain.tomato
 {
-    class Tomato_list
+    class TomatoCfg
     {
+
     }
 }

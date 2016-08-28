@@ -44,18 +44,28 @@
             this.today_tomato_cnt_lb = new System.Windows.Forms.Label();
             this.now_state_lb = new System.Windows.Forms.Label();
             this.total_cycle_lb = new System.Windows.Forms.Label();
+            this.txt_time = new System.Windows.Forms.TextBox();
+            this.txt_title = new System.Windows.Forms.TextBox();
+            this.btn_AddTask = new System.Windows.Forms.Button();
+            this.txt_content = new System.Windows.Forms.TextBox();
+            this.cmenus_task_list = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
+            this.cmenus_task_list.SuspendLayout();
             this.SuspendLayout();
             // 
             // task_list
             // 
             this.task_list.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.task_list.ContextMenuStrip = this.cmenus_task_list;
             this.task_list.FormattingEnabled = true;
+            this.task_list.HorizontalScrollbar = true;
             this.task_list.ItemHeight = 12;
-            this.task_list.Location = new System.Drawing.Point(0, 83);
+            this.task_list.Location = new System.Drawing.Point(0, 131);
             this.task_list.Name = "task_list";
-            this.task_list.Size = new System.Drawing.Size(268, 376);
+            this.task_list.Size = new System.Drawing.Size(268, 328);
             this.task_list.TabIndex = 0;
             // 
             // toolStrip1
@@ -193,11 +203,68 @@
             this.total_cycle_lb.Text = "总循环:0";
             this.total_cycle_lb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // txt_time
+            // 
+            this.txt_time.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.HistoryList;
+            this.txt_time.Location = new System.Drawing.Point(1, 83);
+            this.txt_time.Name = "txt_time";
+            this.txt_time.Size = new System.Drawing.Size(70, 21);
+            this.txt_time.TabIndex = 8;
+            // 
+            // txt_title
+            // 
+            this.txt_title.Location = new System.Drawing.Point(77, 83);
+            this.txt_title.Name = "txt_title";
+            this.txt_title.Size = new System.Drawing.Size(191, 21);
+            this.txt_title.TabIndex = 9;
+            // 
+            // btn_AddTask
+            // 
+            this.btn_AddTask.Location = new System.Drawing.Point(228, 106);
+            this.btn_AddTask.Name = "btn_AddTask";
+            this.btn_AddTask.Size = new System.Drawing.Size(40, 23);
+            this.btn_AddTask.TabIndex = 10;
+            this.btn_AddTask.Text = "添加";
+            this.btn_AddTask.UseVisualStyleBackColor = true;
+            this.btn_AddTask.Click += new System.EventHandler(this.btn_AddTask_Click);
+            // 
+            // txt_content
+            // 
+            this.txt_content.Location = new System.Drawing.Point(1, 107);
+            this.txt_content.Name = "txt_content";
+            this.txt_content.Size = new System.Drawing.Size(225, 21);
+            this.txt_content.TabIndex = 11;
+            // 
+            // cmenus_task_list
+            // 
+            this.cmenus_task_list.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.编辑ToolStripMenuItem,
+            this.删除ToolStripMenuItem});
+            this.cmenus_task_list.Name = "cmenus_task_list";
+            this.cmenus_task_list.Size = new System.Drawing.Size(153, 70);
+            // 
+            // 编辑ToolStripMenuItem
+            // 
+            this.编辑ToolStripMenuItem.Name = "编辑ToolStripMenuItem";
+            this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.编辑ToolStripMenuItem.Text = "编辑";
+            // 
+            // 删除ToolStripMenuItem
+            // 
+            this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
+            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.删除ToolStripMenuItem.Text = "删除";
+            this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
+            // 
             // Tomato_work
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(268, 458);
+            this.Controls.Add(this.txt_content);
+            this.Controls.Add(this.btn_AddTask);
+            this.Controls.Add(this.txt_title);
+            this.Controls.Add(this.txt_time);
             this.Controls.Add(this.total_cycle_lb);
             this.Controls.Add(this.now_state_lb);
             this.Controls.Add(this.today_tomato_cnt_lb);
@@ -212,6 +279,7 @@
             this.Load += new System.EventHandler(this.Tomato_work_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.cmenus_task_list.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -233,5 +301,12 @@
         private System.Windows.Forms.Label today_tomato_cnt_lb;
         private System.Windows.Forms.Label now_state_lb;
         private System.Windows.Forms.Label total_cycle_lb;
+        private System.Windows.Forms.TextBox txt_time;
+        private System.Windows.Forms.TextBox txt_title;
+        private System.Windows.Forms.Button btn_AddTask;
+        private System.Windows.Forms.TextBox txt_content;
+        private System.Windows.Forms.ContextMenuStrip cmenus_task_list;
+        private System.Windows.Forms.ToolStripMenuItem 编辑ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem;
     }
 }

@@ -12,6 +12,8 @@ namespace CodeNote
 {
     public partial class Tomato_setting : Form
     {
+        //TODO:保存数值校验
+
         Tomato_work tomato_work;
         public Tomato_setting(Tomato_work tomato_work)
         {

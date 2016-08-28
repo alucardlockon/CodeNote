@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CodeNote.domain.tomato
 {
-    class Tomato_user
+    class TomatoUser
     {
         private int tomato_count;
         private int tomato_max;

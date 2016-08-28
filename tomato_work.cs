@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CodeNote.domain.tomato;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,8 +16,15 @@ namespace CodeNote
 {
     public partial class Tomato_work : Form
     {
-        private static Tomato_setting tomato_setting;
+        //TODO: 对tomato_user细项记录
+        //TODO: TASK增加勾选完成选项
+        //TODO: 完整TASK右键菜单
+        //TODO: 实现到点时间通知
+        //TODO: 实现窗口置顶/取消置顶
 
+        //窗体
+        private static Tomato_setting tomato_setting;
+        //运行时变量
         private string time_state = "init";
         private DateTime time = new DateTime();
         private DateTime timenow = new DateTime();
@@ -27,7 +36,8 @@ namespace CodeNote
         private int cfg_break_tm = 300;
         private int cfg_long_break_tm = 900;
         private int cfg_tomato_cylce = 4;
-        //user参数
+        //list参数
+        private ArrayList tasklist = new ArrayList(); //tomato_task
 
         public Tomato_work()
         {
@@ -37,13 +47,8 @@ namespace CodeNote
         private void Tomato_work_Load(object sender, EventArgs e)
         {
             time_label.Text = "00:00";
-            
-            string lists = GetXmlConfigList("config/tomato_list.xml", "/list/task");
-
             Init();
         }
-
-        
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -91,7 +96,7 @@ namespace CodeNote
                         tomato_now_cylce++;
                     }else{
                         tomato_now_cylce = 1 ;
-                        SetXmlConfig("config/tomato_user.xml", "/user/total_cycle", Convert.ToString(Convert.ToInt32(GetXmlConfig("config/tomato_user.xml", "/user/total_cycle")) + 1));
+                        SetXmlConfig("config/tomato_user.xml", "/user/total_cycle", Convert.ToString(Convert.ToInt32(GetXmlConfig("config/tomato_user.xml", "/user/total_cycle") + 1)));
                         total_cycle_lb.Text = "总循环:" + GetXmlConfig("config/tomato_user.xml", "/user/total_cycle");
                     }
                     cycle_count_lb.Text = "循环:" + tomato_now_cylce + "/" + cfg_tomato_cylce;
@@ -102,8 +107,6 @@ namespace CodeNote
                 }
             }
         }
-
-
         /*
          * 开始 
          */
@@ -143,7 +146,6 @@ namespace CodeNote
             now_state_lb.Text = "工作时间";
             timer1.Enabled = true;
         }
-
         /*
          * 重新开始循环 
          */
@@ -168,7 +170,46 @@ namespace CodeNote
                 tomato_setting.Show();
             }
         }
-
+        /*
+         * 新建任务按钮 
+         */
+        private void btn_AddTask_Click(object sender, EventArgs e)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load("config/tomato_list.xml");
+            XmlNode listnode=doc.SelectSingleNode("/list");
+            XmlNode lastnode = doc.SelectSingleNode("/list").LastChild;
+            TomatoTask task = new TomatoTask();
+            task.Id = Convert.ToInt32(lastnode.SelectSingleNode("id").InnerText.Trim()) + 1;
+            task.Title = txt_title.Text;
+            task.Content = txt_content.Text;
+            task.Datetime = txt_time.Text;
+            task.State = "0";
+            XmlElement node_task = doc.CreateElement("task");
+            XmlElement node_id = doc.CreateElement("id");
+            node_id.InnerText = Convert.ToString(task.Id);
+            XmlElement node_title = doc.CreateElement("title");
+            node_title.InnerText = task.Title;
+            XmlElement node_content = doc.CreateElement("content");
+            node_content.InnerText = task.Content;
+            XmlElement node_datetime = doc.CreateElement("datetime");
+            node_datetime.InnerText = task.Datetime;
+            XmlElement node_state = doc.CreateElement("state");
+            node_state.InnerText = task.State;
+            node_task.AppendChild(node_id);
+            node_task.AppendChild(node_title);
+            node_task.AppendChild(node_content);
+            node_task.AppendChild(node_datetime);
+            node_task.AppendChild(node_state);
+            listnode.AppendChild(node_task);
+            tasklist.Add(task);
+            doc.Save("config/tomato_list.xml");
+            txt_title.Text = "";
+            txt_content.Text="";
+            txt_time.Text="";
+            task_list.DataSource = null;
+            task_list.DataSource = tasklist;
+        }
         public void Init()
         {
             //初始化cfg参数
@@ -182,22 +223,34 @@ namespace CodeNote
             today_tomato_cnt_lb.Text = "今日:" + GetXmlConfig("config/tomato_user.xml", "/user/tomato_today");
             total_tomato_cnt_lb.Text = "番茄数:" + tomato_count;
             total_cycle_lb.Text = "总循环:" + GetXmlConfig("config/tomato_user.xml", "/user/total_cycle");
+            //初始化任务列表
+            tasklist = GetXmlConfigList("config/tomato_list.xml", "/list/task");
+            task_list.DataSource = tasklist;
         }
-
-        private string GetXmlConfigList(string filename,string xpath)
+        private ArrayList GetXmlConfigList(string filename,string xpath)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(filename);
-            return doc.SelectNodes(xpath)[0].InnerText.Trim();
+            XmlNodeList nodes=doc.SelectNodes(xpath);
+            ArrayList list = new ArrayList();
+            foreach (XmlNode node in nodes)
+            {
+                TomatoTask task=new TomatoTask();
+                task.Id = Convert.ToInt32(node.SelectSingleNode("id").InnerText.Trim());
+                task.Title = node.SelectSingleNode("title").InnerText.Trim();
+                task.Content = node.SelectSingleNode("content").InnerText.Trim();
+                task.Datetime = node.SelectSingleNode("datetime").InnerText.Trim();
+                task.State = node.SelectSingleNode("state").InnerText.Trim();
+                list.Add(task);
+            }
+            return list;
         }
-
         private string GetXmlConfig(string filename, string xpath)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(filename);
             return doc.SelectSingleNode(xpath).InnerText.Trim();
         }
-
         private void SetXmlConfig(string filename, string xpath, string value)
         {
             XmlDocument doc = new XmlDocument();
@@ -205,6 +258,37 @@ namespace CodeNote
             doc.SelectSingleNode(xpath).InnerText = value.Trim();
             doc.Save(filename);
         }
+        private void DelXmlConfig(string filename, string parent_xpath,string childnodename,string value)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(filename);
+            XmlNodeList nodes = doc.SelectNodes(parent_xpath);
+            foreach (XmlNode node in nodes)
+            {
+                if (node.SelectSingleNode(childnodename).InnerText.Trim()==value)
+                {
+                    node.ParentNode.RemoveChild(node);
+                    break;
+                }
+            }
+            doc.Save(filename);
+        }
+
+        /*
+         * 右键菜单
+         */ 
+        private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TomatoTask selectedTask=(TomatoTask)task_list.SelectedValue;
+            int id=selectedTask.Id;
+            
+            DelXmlConfig("config/tomato_list.xml", "/list/task","id",Convert.ToString(id));
+            tasklist.Remove(task_list.SelectedValue);
+            task_list.DataSource = null;
+            task_list.DataSource = tasklist;
+        }
+
+        
 
     }
 }
