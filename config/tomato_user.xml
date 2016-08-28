@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<user>
+  <tomato_count>0</tomato_count>
+  <tomato_max>0</tomato_max>
+  <tomatos>
+    <tomato>
+      <id>1</id>
+      <datetime>10000</datetime>
+    </tomato>
+    <tomato>
+      <id>2</id>
+      <datetime>20000</datetime>
+    </tomato>
+  </tomatos>
+</user>

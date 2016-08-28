@@ -1,8 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <list>
   <task>
+    <id>1</id>
     <title>Hello</title>
-    <content></content>
-    <date></date>
+    <content>Hello Content</content>
+    <datetime>10000</datetime>
+    <state>0</state>
+  </task>
+  <task>
+    <id>2</id>
+    <title>Hello2</title>
+    <content>Hello2 Content</content>
+    <datetime>20000</datetime>
+    <state>0</state>
   </task>
 </list>
