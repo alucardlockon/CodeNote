@@ -46,6 +46,8 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.mainEditor = new System.Windows.Forms.WebBrowser();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
+            this.番茄工作ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开番茄工作面板CtrlShiftTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
@@ -67,6 +69,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.文件FToolStripMenuItem,
             this.编辑ToolStripMenuItem,
+            this.番茄工作ToolStripMenuItem,
             this.工具ToolStripMenuItem,
             this.帮助ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -90,31 +93,31 @@
             // 新建NToolStripMenuItem
             // 
             this.新建NToolStripMenuItem.Name = "新建NToolStripMenuItem";
-            this.新建NToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.新建NToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.新建NToolStripMenuItem.Text = "新建(N)";
             // 
             // 保存SToolStripMenuItem
             // 
             this.保存SToolStripMenuItem.Name = "保存SToolStripMenuItem";
-            this.保存SToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.保存SToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.保存SToolStripMenuItem.Text = "保存(S)";
             // 
             // 另存为ToolStripMenuItem
             // 
             this.另存为ToolStripMenuItem.Name = "另存为ToolStripMenuItem";
-            this.另存为ToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.另存为ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.另存为ToolStripMenuItem.Text = "另存为";
             // 
             // 删除ToolStripMenuItem
             // 
             this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
-            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.删除ToolStripMenuItem.Text = "删除";
             // 
             // 退出ToolStripMenuItem
             // 
             this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.退出ToolStripMenuItem.Text = "退出(Q)";
             // 
             // 编辑ToolStripMenuItem
@@ -128,7 +131,7 @@
             // 首选项ToolStripMenuItem
             // 
             this.首选项ToolStripMenuItem.Name = "首选项ToolStripMenuItem";
-            this.首选项ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.首选项ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.首选项ToolStripMenuItem.Text = "首选项";
             // 
             // 工具ToolStripMenuItem
@@ -157,14 +160,14 @@
             // 关于ToolStripMenuItem
             // 
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.关于ToolStripMenuItem.Text = "关于";
             this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
             // 
             // 帮助ToolStripMenuItem1
             // 
             this.帮助ToolStripMenuItem1.Name = "帮助ToolStripMenuItem1";
-            this.帮助ToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+            this.帮助ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.帮助ToolStripMenuItem1.Text = "帮助";
             // 
             // dataGridView1
@@ -196,6 +199,21 @@
             // 
             this.fileSystemWatcher1.EnableRaisingEvents = true;
             this.fileSystemWatcher1.SynchronizingObject = this;
+            // 
+            // 番茄工作ToolStripMenuItem
+            // 
+            this.番茄工作ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.打开番茄工作面板CtrlShiftTToolStripMenuItem});
+            this.番茄工作ToolStripMenuItem.Name = "番茄工作ToolStripMenuItem";
+            this.番茄工作ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
+            this.番茄工作ToolStripMenuItem.Text = "番茄工作";
+            // 
+            // 打开番茄工作面板CtrlShiftTToolStripMenuItem
+            // 
+            this.打开番茄工作面板CtrlShiftTToolStripMenuItem.Name = "打开番茄工作面板CtrlShiftTToolStripMenuItem";
+            this.打开番茄工作面板CtrlShiftTToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.打开番茄工作面板CtrlShiftTToolStripMenuItem.Text = "打开番茄工作面板(Ctrl+Shift+T)";
+            this.打开番茄工作面板CtrlShiftTToolStripMenuItem.Click += new System.EventHandler(this.打开番茄工作面板CtrlShiftTToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -241,6 +259,8 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.WebBrowser mainEditor;
         private System.IO.FileSystemWatcher fileSystemWatcher1;
+        private System.Windows.Forms.ToolStripMenuItem 番茄工作ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 打开番茄工作面板CtrlShiftTToolStripMenuItem;
     }
 }
 

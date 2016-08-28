@@ -13,6 +13,8 @@ namespace CodeNote
 {
     public partial class Main : Form
     {
+        private static Tomato_work tw; 
+
         public Main()
         {
             InitializeComponent();
@@ -33,6 +35,15 @@ namespace CodeNote
         private void mainEditor_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
 
+        }
+
+        private void 打开番茄工作面板CtrlShiftTToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (tw == null || tw.IsDisposed)
+            { 
+                tw = new Tomato_work();
+                tw.Show();
+            }
         }
     }
 }
