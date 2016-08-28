@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <user>
+  <tomato_today>0</tomato_today>
+  <tomato_today_date>1900-01-01</tomato_today_date>
   <tomato_count>0</tomato_count>
+  <total_cycle>0</total_cycle>
   <tomato_max>0</tomato_max>
   <tomatos>
     <tomato>

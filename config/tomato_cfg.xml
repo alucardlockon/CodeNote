@@ -6,7 +6,10 @@
   <break_tm>
     200
   </break_tm>
-  <tomato_cycle>
+  <long_break_tm>
+    600
+  </long_break_tm>
+  <tomato_cylce>
     2
-  </tomato_cycle>
+  </tomato_cylce>
 </config>
