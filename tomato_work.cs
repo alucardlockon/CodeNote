@@ -17,13 +17,9 @@ namespace CodeNote
 {
     public partial class Tomato_work : Form
     {
-        //TODO: 对tomato_user细项记录
-        //TODO: tomato_user记录列表展示
-        //TODO: TASK增加勾选完成选项
-        //TODO: 完整TASK右键菜单
-
         //窗体
         private static Tomato_setting tomato_setting;
+        private static Tomato_list tomato_list;
         //运行时变量
         private string time_state = "init";
         private DateTime time = new DateTime();
@@ -85,6 +81,7 @@ namespace CodeNote
                     }
                     SetXmlConfig("config/tomato_user.xml", "/user/tomato_today", Convert.ToString(Convert.ToInt32(GetXmlConfig("config/tomato_user.xml", "/user/tomato_today")) + 1));
                     SetXmlConfig("config/tomato_user.xml", "/user/tomato_count", Convert.ToString(Convert.ToInt32(GetXmlConfig("config/tomato_user.xml", "/user/tomato_count")) + 1));
+                    AddTomatoToXml();
                     total_tomato_cnt_lb.Text = "番茄数:" + tomato_count;
                     today_tomato_cnt_lb.Text = "今日:" + GetXmlConfig("config/tomato_user.xml", "/user/tomato_today");
                     time_state = "running_break";
@@ -207,13 +204,23 @@ namespace CodeNote
             node_task.AppendChild(node_datetime);
             node_task.AppendChild(node_state);
             listnode.AppendChild(node_task);
-            tasklist.Add(task);
+            tasklist.Insert(0,task);
             doc.Save("config/tomato_list.xml");
             txt_title.Text = "";
             txt_content.Text="";
             txt_time.Text="";
             task_list.DataSource = null;
             task_list.DataSource = tasklist;
+            //勾选任务列表
+            int i = 0;
+            foreach (TomatoTask task2 in tasklist)
+            {
+                if (task2.State == "1")
+                {
+                    task_list.SetItemChecked(i, true);
+                }
+                i++;
+            }
         }
         public void Init()
         {
@@ -231,6 +238,16 @@ namespace CodeNote
             //初始化任务列表
             tasklist = GetXmlConfigList("config/tomato_list.xml", "/list/task");
             task_list.DataSource = tasklist;
+            //勾选任务列表
+            int i=0;
+            foreach (TomatoTask task in tasklist)
+            {
+                if(task.State=="1"){
+                    task_list.SetItemChecked(i,true);
+                }
+                i++;
+            }
+
         }
         private ArrayList GetXmlConfigList(string filename,string xpath)
         {
@@ -248,6 +265,7 @@ namespace CodeNote
                 task.State = node.SelectSingleNode("state").InnerText.Trim();
                 list.Add(task);
             }
+            list.Reverse();
             return list;
         }
         private string GetXmlConfig(string filename, string xpath)
@@ -276,6 +294,24 @@ namespace CodeNote
                     break;
                 }
             }
+            doc.Save(filename);
+        }
+
+        private void AddTomatoToXml()
+        {
+            string filename = "config/tomato_user.xml";
+            string xpath="/user/tomatos";
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(filename);
+            XmlNode tomatosNode=doc.SelectSingleNode(xpath);
+            
+            TomatoList list = new TomatoList();
+            list.Id = Convert.ToInt32(tomatosNode.LastChild.SelectSingleNode("id").InnerText) + 1;
+            list.Datetime=DateTime.Now.ToString("yyyy-MM-dd hh:ss:mm");
+            XmlNode newNode = doc.CreateElement("tomato");
+            newNode.InnerXml = "<id>" + list.Id + "</id><datetime>" + list.Datetime + "</datetime>";
+            tomatosNode.AppendChild(newNode);
             doc.Save(filename);
         }
 
@@ -364,6 +400,26 @@ namespace CodeNote
                 置顶ToolStripMenuItem.Text = isTop ? "取消置顶" : "置顶";
                 this.TopMost = isTop;
         }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (tomato_list == null || tomato_list.IsDisposed)
+            {
+                tomato_list = new Tomato_list(this);
+                tomato_list.Show();
+            }
+        }
+
+        private void task_list_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            int id = ((TomatoTask)tasklist[e.Index]).Id;
+            XmlDocument doc = new XmlDocument();
+            doc.Load("config/tomato_list.xml");
+            doc.SelectSingleNode("/list/task[id="+id+"]").SelectSingleNode("state").InnerText=(e.NewValue==CheckState.Checked?"1":"0"); 
+            doc.Save("config/tomato_list.xml");
+        }
+
+        
 
     }
 }

@@ -7,6 +7,18 @@ namespace CodeNote.domain.tomato
 {
     class TomatoList
     {
+        private int id;
+        private string datetime;
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+        public string Datetime
+        {
+            get { return datetime; }
+            set { datetime = value; }
+        }
     }
 
     class TomatoTask

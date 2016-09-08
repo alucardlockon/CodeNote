@@ -5,16 +5,37 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeNote", "CodeNote.csproj", "{C5517768-F14F-426D-8731-A527B56ACCEB}"
 EndProject
+Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "CodeNoteSetup", "..\CodeNodeSetup\CodeNoteSetup.isproj", "{1066F6C4-A013-434C-8AEA-0CB94682409A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|Any CPU = CD_ROM|Any CPU
 		Debug|Any CPU = Debug|Any CPU
+		DVD-5|Any CPU = DVD-5|Any CPU
 		Release|Any CPU = Release|Any CPU
+		SingleImage|Any CPU = SingleImage|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C5517768-F14F-426D-8731-A527B56ACCEB}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{C5517768-F14F-426D-8731-A527B56ACCEB}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
 		{C5517768-F14F-426D-8731-A527B56ACCEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5517768-F14F-426D-8731-A527B56ACCEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5517768-F14F-426D-8731-A527B56ACCEB}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5517768-F14F-426D-8731-A527B56ACCEB}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
 		{C5517768-F14F-426D-8731-A527B56ACCEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5517768-F14F-426D-8731-A527B56ACCEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5517768-F14F-426D-8731-A527B56ACCEB}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{C5517768-F14F-426D-8731-A527B56ACCEB}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{1066F6C4-A013-434C-8AEA-0CB94682409A}.CD_ROM|Any CPU.ActiveCfg = CD_ROM
+		{1066F6C4-A013-434C-8AEA-0CB94682409A}.CD_ROM|Any CPU.Build.0 = CD_ROM
+		{1066F6C4-A013-434C-8AEA-0CB94682409A}.Debug|Any CPU.ActiveCfg = DVD-5
+		{1066F6C4-A013-434C-8AEA-0CB94682409A}.Debug|Any CPU.Build.0 = DVD-5
+		{1066F6C4-A013-434C-8AEA-0CB94682409A}.DVD-5|Any CPU.ActiveCfg = DVD-5
+		{1066F6C4-A013-434C-8AEA-0CB94682409A}.DVD-5|Any CPU.Build.0 = DVD-5
+		{1066F6C4-A013-434C-8AEA-0CB94682409A}.Release|Any CPU.ActiveCfg = SingleImage
+		{1066F6C4-A013-434C-8AEA-0CB94682409A}.Release|Any CPU.Build.0 = SingleImage
+		{1066F6C4-A013-434C-8AEA-0CB94682409A}.SingleImage|Any CPU.ActiveCfg = SingleImage
+		{1066F6C4-A013-434C-8AEA-0CB94682409A}.SingleImage|Any CPU.Build.0 = SingleImage
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
