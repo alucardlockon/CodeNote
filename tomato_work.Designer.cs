@@ -31,12 +31,14 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Tomato_work));
             this.task_list = new System.Windows.Forms.ListBox();
+            this.cmenus_task_list = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel4 = new System.Windows.Forms.ToolStripButton();
             this.time_label = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.cycle_count_lb = new System.Windows.Forms.Label();
@@ -48,11 +50,19 @@
             this.txt_title = new System.Windows.Forms.TextBox();
             this.btn_AddTask = new System.Windows.Forms.Button();
             this.txt_content = new System.Windows.Forms.TextBox();
-            this.cmenus_task_list = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip1.SuspendLayout();
+            this.CodeNoteTomato = new System.Windows.Forms.NotifyIcon(this.components);
+            this.cmenus_notifybar = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripLabel4 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.cmenus_settings = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.首选项ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.退出ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.置顶ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmenus_task_list.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
+            this.cmenus_notifybar.SuspendLayout();
+            this.cmenus_settings.SuspendLayout();
             this.SuspendLayout();
             // 
             // task_list
@@ -65,8 +75,29 @@
             this.task_list.ItemHeight = 12;
             this.task_list.Location = new System.Drawing.Point(0, 131);
             this.task_list.Name = "task_list";
-            this.task_list.Size = new System.Drawing.Size(268, 328);
+            this.task_list.Size = new System.Drawing.Size(272, 328);
             this.task_list.TabIndex = 0;
+            // 
+            // cmenus_task_list
+            // 
+            this.cmenus_task_list.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.编辑ToolStripMenuItem,
+            this.删除ToolStripMenuItem});
+            this.cmenus_task_list.Name = "cmenus_task_list";
+            this.cmenus_task_list.Size = new System.Drawing.Size(101, 48);
+            // 
+            // 编辑ToolStripMenuItem
+            // 
+            this.编辑ToolStripMenuItem.Name = "编辑ToolStripMenuItem";
+            this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.编辑ToolStripMenuItem.Text = "编辑";
+            // 
+            // 删除ToolStripMenuItem
+            // 
+            this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
+            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.删除ToolStripMenuItem.Text = "删除";
+            this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
             // 
             // toolStrip1
             // 
@@ -78,7 +109,7 @@
             this.toolStripLabel4});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(268, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(272, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -121,16 +152,6 @@
             this.toolStripButton1.Size = new System.Drawing.Size(84, 22);
             this.toolStripButton1.Text = "重新开始循环";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
-            // 
-            // toolStripLabel4
-            // 
-            this.toolStripLabel4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripLabel4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel4.Image")));
-            this.toolStripLabel4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripLabel4.Name = "toolStripLabel4";
-            this.toolStripLabel4.Size = new System.Drawing.Size(36, 22);
-            this.toolStripLabel4.Text = "设置";
-            this.toolStripLabel4.Click += new System.EventHandler(this.toolStripLabel4_Click);
             // 
             // time_label
             // 
@@ -235,32 +256,85 @@
             this.txt_content.Size = new System.Drawing.Size(225, 21);
             this.txt_content.TabIndex = 11;
             // 
-            // cmenus_task_list
+            // CodeNoteTomato
             // 
-            this.cmenus_task_list.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.编辑ToolStripMenuItem,
-            this.删除ToolStripMenuItem});
-            this.cmenus_task_list.Name = "cmenus_task_list";
-            this.cmenus_task_list.Size = new System.Drawing.Size(153, 70);
+            this.CodeNoteTomato.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.CodeNoteTomato.BalloonTipText = "world";
+            this.CodeNoteTomato.BalloonTipTitle = "Hello";
+            this.CodeNoteTomato.ContextMenuStrip = this.cmenus_notifybar;
+            this.CodeNoteTomato.Icon = ((System.Drawing.Icon)(resources.GetObject("CodeNoteTomato.Icon")));
+            this.CodeNoteTomato.Text = "Tomato";
+            this.CodeNoteTomato.Visible = true;
+            this.CodeNoteTomato.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CodeNoteTomato_MouseClick);
             // 
-            // 编辑ToolStripMenuItem
+            // cmenus_notifybar
             // 
-            this.编辑ToolStripMenuItem.Name = "编辑ToolStripMenuItem";
-            this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.编辑ToolStripMenuItem.Text = "编辑";
+            this.cmenus_notifybar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.打开ToolStripMenuItem,
+            this.退出ToolStripMenuItem});
+            this.cmenus_notifybar.Name = "cmenus_notifybar";
+            this.cmenus_notifybar.Size = new System.Drawing.Size(101, 48);
             // 
-            // 删除ToolStripMenuItem
+            // 打开ToolStripMenuItem
             // 
-            this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
-            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.删除ToolStripMenuItem.Text = "删除";
-            this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
+            this.打开ToolStripMenuItem.Name = "打开ToolStripMenuItem";
+            this.打开ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.打开ToolStripMenuItem.Text = "打开";
+            this.打开ToolStripMenuItem.Click += new System.EventHandler(this.打开ToolStripMenuItem_Click);
+            // 
+            // 退出ToolStripMenuItem
+            // 
+            this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.退出ToolStripMenuItem.Text = "退出";
+            this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
+            // 
+            // toolStripLabel4
+            // 
+            this.toolStripLabel4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripLabel4.DropDown = this.cmenus_settings;
+            this.toolStripLabel4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel4.Image")));
+            this.toolStripLabel4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripLabel4.Name = "toolStripLabel4";
+            this.toolStripLabel4.Size = new System.Drawing.Size(45, 22);
+            this.toolStripLabel4.Text = "设置";
+            this.toolStripLabel4.Click += new System.EventHandler(this.toolStripLabel4_Click);
+            // 
+            // cmenus_settings
+            // 
+            this.cmenus_settings.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.首选项ToolStripMenuItem,
+            this.置顶ToolStripMenuItem,
+            this.退出ToolStripMenuItem1});
+            this.cmenus_settings.Name = "cmenus_settings";
+            this.cmenus_settings.Size = new System.Drawing.Size(153, 92);
+            // 
+            // 首选项ToolStripMenuItem
+            // 
+            this.首选项ToolStripMenuItem.Name = "首选项ToolStripMenuItem";
+            this.首选项ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.首选项ToolStripMenuItem.Text = "首选项";
+            this.首选项ToolStripMenuItem.Click += new System.EventHandler(this.首选项ToolStripMenuItem_Click);
+            // 
+            // 退出ToolStripMenuItem1
+            // 
+            this.退出ToolStripMenuItem1.Name = "退出ToolStripMenuItem1";
+            this.退出ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.退出ToolStripMenuItem1.Text = "退出";
+            this.退出ToolStripMenuItem1.Click += new System.EventHandler(this.退出ToolStripMenuItem1_Click);
+            // 
+            // 置顶ToolStripMenuItem
+            // 
+            this.置顶ToolStripMenuItem.Name = "置顶ToolStripMenuItem";
+            this.置顶ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.置顶ToolStripMenuItem.Text = "置顶";
+            this.置顶ToolStripMenuItem.Click += new System.EventHandler(this.置顶ToolStripMenuItem_Click);
             // 
             // Tomato_work
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(268, 458);
+            this.ClientSize = new System.Drawing.Size(272, 458);
             this.Controls.Add(this.txt_content);
             this.Controls.Add(this.btn_AddTask);
             this.Controls.Add(this.txt_title);
@@ -276,10 +350,14 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Tomato_work";
             this.Text = "番茄小工具";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Tomato_work_FormClosing);
             this.Load += new System.EventHandler(this.Tomato_work_Load);
+            this.Resize += new System.EventHandler(this.Tomato_work_Resize);
+            this.cmenus_task_list.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.cmenus_task_list.ResumeLayout(false);
+            this.cmenus_notifybar.ResumeLayout(false);
+            this.cmenus_settings.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -294,7 +372,6 @@
         private System.Windows.Forms.ToolStripButton toolStripLabel1;
         private System.Windows.Forms.ToolStripButton toolStripLabel2;
         private System.Windows.Forms.ToolStripButton toolStripLabel3;
-        private System.Windows.Forms.ToolStripButton toolStripLabel4;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.Label cycle_count_lb;
         private System.Windows.Forms.Label total_tomato_cnt_lb;
@@ -308,5 +385,14 @@
         private System.Windows.Forms.ContextMenuStrip cmenus_task_list;
         private System.Windows.Forms.ToolStripMenuItem 编辑ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem;
+        private System.Windows.Forms.NotifyIcon CodeNoteTomato;
+        private System.Windows.Forms.ContextMenuStrip cmenus_notifybar;
+        private System.Windows.Forms.ToolStripMenuItem 打开ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripLabel4;
+        private System.Windows.Forms.ContextMenuStrip cmenus_settings;
+        private System.Windows.Forms.ToolStripMenuItem 首选项ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 置顶ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem1;
     }
 }

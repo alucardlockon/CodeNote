@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
@@ -17,10 +18,9 @@ namespace CodeNote
     public partial class Tomato_work : Form
     {
         //TODO: 对tomato_user细项记录
+        //TODO: tomato_user记录列表展示
         //TODO: TASK增加勾选完成选项
         //TODO: 完整TASK右键菜单
-        //TODO: 实现到点时间通知
-        //TODO: 实现窗口置顶/取消置顶
 
         //窗体
         private static Tomato_setting tomato_setting;
@@ -38,6 +38,8 @@ namespace CodeNote
         private int cfg_tomato_cylce = 4;
         //list参数
         private ArrayList tasklist = new ArrayList(); //tomato_task
+        //是否置顶标志
+        private static bool isTop=false;
 
         public Tomato_work()
         {
@@ -50,6 +52,10 @@ namespace CodeNote
             Init();
         }
 
+        /**
+         * 主要计时器方法。
+         * time_state:running_tm正在运行工作的状态，running_break正在运行休息的状态
+         */
         private void timer1_Tick(object sender, EventArgs e)
         {
             timenow = DateTime.Now;
@@ -70,6 +76,7 @@ namespace CodeNote
                         time = DateTime.Now.AddSeconds(cfg_long_break_tm);
                         now_state_lb.Text = "长休息时间";
                     }
+                    //完成一个番茄工作，增加番茄数
                     tomato_count++;
                     if (GetXmlConfig("config/tomato_user.xml", "/user/tomato_today_date") != DateTime.Now.ToString("yyyy-MM-dd"))
                     {
@@ -81,6 +88,7 @@ namespace CodeNote
                     total_tomato_cnt_lb.Text = "番茄数:" + tomato_count;
                     today_tomato_cnt_lb.Text = "今日:" + GetXmlConfig("config/tomato_user.xml", "/user/tomato_today");
                     time_state = "running_break";
+                    CodeNoteTomato.ShowBalloonTip(100, "CodeNode", "工作时间结束，休息时间开始!!循环:" + tomato_now_cylce + "/" + cfg_tomato_cylce, ToolTipIcon.Info);
                 }
             }
             else if (time_state == "running_break")
@@ -104,6 +112,7 @@ namespace CodeNote
                     time = DateTime.Now.AddSeconds(cfg_tomato_tm);
                     time_state = "running_tm";
                     now_state_lb.Text = "工作时间";
+                    CodeNoteTomato.ShowBalloonTip(100, "CodeNode", "休息时间结束，工作时间开始!!循环:" + tomato_now_cylce + "/" + cfg_tomato_cylce, ToolTipIcon.Info);
                 }
             }
         }
@@ -164,11 +173,7 @@ namespace CodeNote
          */
         private void toolStripLabel4_Click(object sender, EventArgs e)
         {
-            if (tomato_setting == null || tomato_setting.IsDisposed)
-            {
-                tomato_setting = new Tomato_setting(this);
-                tomato_setting.Show();
-            }
+            
         }
         /*
          * 新建任务按钮 
@@ -288,7 +293,77 @@ namespace CodeNote
             task_list.DataSource = tasklist;
         }
 
-        
+        /**
+         * 单击通知栏图标
+         */
+        private void CodeNoteTomato_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left) { 
+                if (this.Visible)
+                {
+                    this.Hide();
+                }
+                else
+                {
+                    this.Show();
+                    this.Activate();
+                }
+            }
+        }
+
+        private void 打开ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Show();
+            this.Activate();
+        }
+
+        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CodeNoteTomato.Visible = false;
+            Application.Exit();
+        }
+
+        //最小化到托盘
+
+        private void Tomato_work_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Hide();
+            e.Cancel = true;
+        }
+
+        private void Tomato_work_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.WindowState = FormWindowState.Normal;
+                this.Hide();
+            }
+        }
+
+        private void 退出ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            CodeNoteTomato.Visible = false;
+            Application.Exit();
+        }
+
+        private void 首选项ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (tomato_setting == null || tomato_setting.IsDisposed)
+            {
+                tomato_setting = new Tomato_setting(this);
+                tomato_setting.Show();
+            }
+        }
+
+        /**
+         * 窗口置顶
+         */ 
+        private void 置顶ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+                isTop = !isTop;
+                置顶ToolStripMenuItem.Text = isTop ? "取消置顶" : "置顶";
+                this.TopMost = isTop;
+        }
 
     }
 }
