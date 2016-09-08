@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -12,7 +13,6 @@ namespace CodeNote
 {
     public partial class Tomato_setting : Form
     {
-        //TODO:保存数值校验
 
         Tomato_work tomato_work;
         public Tomato_setting(Tomato_work tomato_work)
@@ -36,6 +36,10 @@ namespace CodeNote
          */
         private void button1_Click(object sender, EventArgs e)
         {
+            if (!CheckParameter())
+            {
+                return;
+            }
             //保存参数
             SetXmlConfig("config/tomato_cfg.xml", "/config/tomato_tm", tomato_tm.Text);
             SetXmlConfig("config/tomato_cfg.xml", "/config/break_tm", break_tm.Text);
@@ -68,6 +72,17 @@ namespace CodeNote
             doc.Load(filename);
             doc.SelectSingleNode(xpath).InnerText = value.Trim();
             doc.Save(filename);
+        }
+
+        private bool CheckParameter()
+        {
+            string reg=@"^\d*$";
+            if (!Regex.IsMatch(tomato_tm.Text.Trim(), reg) || !Regex.IsMatch(break_tm.Text.Trim(), reg) || !Regex.IsMatch(long_break_tm.Text.Trim(), reg) || !Regex.IsMatch(tomato_cycle.Text.Trim(), reg))
+            {
+                MessageBox.Show("请输入正确的值");
+                return false;
+            }
+            return true;
         }
 
         
