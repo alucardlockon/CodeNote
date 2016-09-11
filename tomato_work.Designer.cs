@@ -41,6 +41,7 @@
             this.cmenus_settings = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.首选项ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.置顶ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.time_label = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -57,8 +58,8 @@
             this.cmenus_notifybar = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.task_list = new System.Windows.Forms.CheckedListBox();
+            this.fqToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmenus_task_list.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.cmenus_settings.SuspendLayout();
@@ -149,29 +150,37 @@
             this.cmenus_settings.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.首选项ToolStripMenuItem,
             this.置顶ToolStripMenuItem,
+            this.fqToolStripMenuItem,
             this.toolStripMenuItem2,
             this.退出ToolStripMenuItem1});
             this.cmenus_settings.Name = "cmenus_settings";
-            this.cmenus_settings.Size = new System.Drawing.Size(125, 92);
+            this.cmenus_settings.Size = new System.Drawing.Size(153, 136);
             // 
             // 首选项ToolStripMenuItem
             // 
             this.首选项ToolStripMenuItem.Name = "首选项ToolStripMenuItem";
-            this.首选项ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.首选项ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.首选项ToolStripMenuItem.Text = "首选项";
             this.首选项ToolStripMenuItem.Click += new System.EventHandler(this.首选项ToolStripMenuItem_Click);
             // 
             // 置顶ToolStripMenuItem
             // 
             this.置顶ToolStripMenuItem.Name = "置顶ToolStripMenuItem";
-            this.置顶ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.置顶ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.置顶ToolStripMenuItem.Text = "置顶";
             this.置顶ToolStripMenuItem.Click += new System.EventHandler(this.置顶ToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Text = "历史记录";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // 退出ToolStripMenuItem1
             // 
             this.退出ToolStripMenuItem1.Name = "退出ToolStripMenuItem1";
-            this.退出ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.退出ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.退出ToolStripMenuItem1.Text = "退出";
             this.退出ToolStripMenuItem1.Click += new System.EventHandler(this.退出ToolStripMenuItem1_Click);
             // 
@@ -311,13 +320,6 @@
             this.退出ToolStripMenuItem.Text = "退出";
             this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(124, 22);
-            this.toolStripMenuItem2.Text = "历史记录";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
-            // 
             // task_list
             // 
             this.task_list.ContextMenuStrip = this.cmenus_task_list;
@@ -328,6 +330,13 @@
             this.task_list.Size = new System.Drawing.Size(272, 324);
             this.task_list.TabIndex = 12;
             this.task_list.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.task_list_ItemCheck);
+            // 
+            // fqToolStripMenuItem
+            // 
+            this.fqToolStripMenuItem.Name = "fqToolStripMenuItem";
+            this.fqToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fqToolStripMenuItem.Text = "好番茄";
+            this.fqToolStripMenuItem.Click += new System.EventHandler(this.fqToolStripMenuItem_Click);
             // 
             // Tomato_work
             // 
@@ -393,5 +402,6 @@
         private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.CheckedListBox task_list;
+        private System.Windows.Forms.ToolStripMenuItem fqToolStripMenuItem;
     }
 }
