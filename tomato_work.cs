@@ -20,6 +20,7 @@ namespace CodeNote
         //窗体
         private static Tomato_setting tomato_setting;
         private static Tomato_list tomato_list;
+        private static Tomato_fq tomato_fq;
         //运行时变量
         private string time_state = "init";
         private DateTime time = new DateTime();
@@ -417,6 +418,16 @@ namespace CodeNote
             doc.Load("config/tomato_list.xml");
             doc.SelectSingleNode("/list/task[id="+id+"]").SelectSingleNode("state").InnerText=(e.NewValue==CheckState.Checked?"1":"0"); 
             doc.Save("config/tomato_list.xml");
+        }
+
+        private void fqToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (tomato_fq == null || tomato_fq.IsDisposed)
+            {
+                tomato_fq = new Tomato_fq(this);
+                tomato_fq.Show();
+            }
+            
         }
 
         
