@@ -157,48 +157,49 @@
             this.toolStripMenuItem2,
             this.退出ToolStripMenuItem1});
             this.cmenus_settings.Name = "cmenus_settings";
+            this.cmenus_settings.OwnerItem = this.toolStripLabel4;
             this.cmenus_settings.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.cmenus_settings.Size = new System.Drawing.Size(137, 136);
             // 
             // 首选项ToolStripMenuItem
             // 
             this.首选项ToolStripMenuItem.Name = "首选项ToolStripMenuItem";
-            this.首选项ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.首选项ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.首选项ToolStripMenuItem.Text = "首选项";
             this.首选项ToolStripMenuItem.Click += new System.EventHandler(this.首选项ToolStripMenuItem_Click);
             // 
             // 置顶ToolStripMenuItem
             // 
             this.置顶ToolStripMenuItem.Name = "置顶ToolStripMenuItem";
-            this.置顶ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.置顶ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.置顶ToolStripMenuItem.Text = "置顶";
             this.置顶ToolStripMenuItem.Click += new System.EventHandler(this.置顶ToolStripMenuItem_Click);
             // 
             // 打开悬浮窗ToolStripMenuItem1
             // 
             this.打开悬浮窗ToolStripMenuItem1.Name = "打开悬浮窗ToolStripMenuItem1";
-            this.打开悬浮窗ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.打开悬浮窗ToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.打开悬浮窗ToolStripMenuItem1.Text = "打开悬浮窗";
             this.打开悬浮窗ToolStripMenuItem1.Click += new System.EventHandler(this.打开悬浮窗ToolStripMenuItem1_Click);
             // 
             // fqToolStripMenuItem
             // 
             this.fqToolStripMenuItem.Name = "fqToolStripMenuItem";
-            this.fqToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fqToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.fqToolStripMenuItem.Text = "好番茄";
             this.fqToolStripMenuItem.Click += new System.EventHandler(this.fqToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(136, 22);
             this.toolStripMenuItem2.Text = "历史记录";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // 退出ToolStripMenuItem1
             // 
             this.退出ToolStripMenuItem1.Name = "退出ToolStripMenuItem1";
-            this.退出ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.退出ToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.退出ToolStripMenuItem1.Text = "退出";
             this.退出ToolStripMenuItem1.Click += new System.EventHandler(this.退出ToolStripMenuItem1_Click);
             // 
