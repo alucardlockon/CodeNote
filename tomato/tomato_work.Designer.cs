@@ -34,7 +34,6 @@
             this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripDropDownButton();
@@ -62,6 +61,7 @@
             this.打开悬浮窗ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.task_list = new System.Windows.Forms.CheckedListBox();
+            this.nowProgress = new System.Windows.Forms.ProgressBar();
             this.cmenus_task_list.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.cmenus_settings.SuspendLayout();
@@ -86,7 +86,6 @@
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
-            this.toolStripLabel2,
             this.toolStripLabel3,
             this.toolStripButton1,
             this.toolStripLabel4});
@@ -105,16 +104,6 @@
             this.toolStripLabel1.Size = new System.Drawing.Size(36, 22);
             this.toolStripLabel1.Text = "开始";
             this.toolStripLabel1.Click += new System.EventHandler(this.toolStripLabel1_Click);
-            // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripLabel2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel2.Image")));
-            this.toolStripLabel2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(36, 22);
-            this.toolStripLabel2.Text = "暂停";
-            this.toolStripLabel2.Click += new System.EventHandler(this.toolStripLabel2_Click);
             // 
             // toolStripLabel3
             // 
@@ -145,7 +134,6 @@
             this.toolStripLabel4.Name = "toolStripLabel4";
             this.toolStripLabel4.Size = new System.Drawing.Size(45, 22);
             this.toolStripLabel4.Text = "设置";
-            this.toolStripLabel4.Click += new System.EventHandler(this.toolStripLabel4_Click);
             // 
             // cmenus_settings
             // 
@@ -358,11 +346,19 @@
             this.task_list.TabIndex = 12;
             this.task_list.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.task_list_ItemCheck);
             // 
+            // nowProgress
+            // 
+            this.nowProgress.Location = new System.Drawing.Point(1, 456);
+            this.nowProgress.Name = "nowProgress";
+            this.nowProgress.Size = new System.Drawing.Size(270, 2);
+            this.nowProgress.TabIndex = 13;
+            // 
             // TomatoWork
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(272, 458);
+            this.Controls.Add(this.nowProgress);
             this.Controls.Add(this.task_list);
             this.Controls.Add(this.txt_content);
             this.Controls.Add(this.btn_AddTask);
@@ -398,8 +394,6 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.Label time_label;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.ToolStripButton toolStripLabel1;
-        private System.Windows.Forms.ToolStripButton toolStripLabel2;
         private System.Windows.Forms.ToolStripButton toolStripLabel3;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.Label cycle_count_lb;
@@ -427,5 +421,7 @@
         private System.Windows.Forms.ToolStripMenuItem fqToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开悬浮窗ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开悬浮窗ToolStripMenuItem1;
+        public System.Windows.Forms.ToolStripButton toolStripLabel1;
+        public System.Windows.Forms.ProgressBar nowProgress;
     }
 }

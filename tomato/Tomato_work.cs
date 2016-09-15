@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
@@ -15,7 +16,7 @@ namespace CodeNote.tomato
         private static TomatoFq _tomatoFq;
         private static Tomato_miniWnd _tomatoMiniWnd;
         //运行时变量
-        private string _timeState = "init";
+        public string TimeState = "init";
         private string _lastState = "init";
         private DateTime _time;
         private DateTime _timenow;
@@ -58,7 +59,7 @@ namespace CodeNote.tomato
         private void timer1_Tick(object sender, EventArgs e)
         {
             _timenow = DateTime.Now;
-            if (_timeState == "running_tm")
+            if (TimeState == "running_tm")
             {
                 _tmspan = _time - _timenow;
                 if(_tmspan.Ticks>0){
@@ -73,6 +74,9 @@ namespace CodeNote.tomato
                         time_label.ForeColor = Color.Black;
                         ColorChange = false;
                     }
+                    nowProgress.Minimum = 0;
+                    nowProgress.Maximum = _cfgTomatoTm;
+                    nowProgress.Value = _cfgTomatoTm - (int)_tmspan.TotalSeconds;
                 }else {
                     _timenow = DateTime.Now;
                     if (_tomatoNowCylce < _cfgTomatoCylce)
@@ -97,11 +101,11 @@ namespace CodeNote.tomato
                     AddTomatoToXml();
                     total_tomato_cnt_lb.Text = @"番茄数:" + _tomatoCount;
                     today_tomato_cnt_lb.Text = @"今日:" + GetXmlConfig("config/tomato_user.xml", "/user/tomato_today");
-                    _timeState = "running_break";
+                    TimeState = "running_break";
                     CodeNoteTomato.ShowBalloonTip(100, "CodeNode", "工作时间结束，休息时间开始!!循环:" + _tomatoNowCylce + "/" + _cfgTomatoCylce, ToolTipIcon.Info);
                 }
             }
-            else if (_timeState == "running_break")
+            else if (TimeState == "running_break")
             {
                 _tmspan = _time - _timenow;
                 if (_tmspan.Ticks > 0)
@@ -116,6 +120,9 @@ namespace CodeNote.tomato
                     {
                         break_tm = _cfgBreakTm;
                     }
+                    nowProgress.Minimum = 0;
+                    nowProgress.Maximum = break_tm;
+                    nowProgress.Value = break_tm - (int)_tmspan.TotalSeconds;
                     if (_tmspan.TotalSeconds <= break_tm * _cfgCountdownPercent && time_label.ForeColor != CfgCountdownColor)
                     {
                         time_label.ForeColor = CfgCountdownColor;
@@ -139,65 +146,69 @@ namespace CodeNote.tomato
                     cycle_count_lb.Text = @"循环:" + _tomatoNowCylce + "/" + _cfgTomatoCylce;
                     _timenow = DateTime.Now;
                     _time = DateTime.Now.AddSeconds(_cfgTomatoTm);
-                    _timeState = "running_tm";
+                    TimeState = "running_tm";
                     now_state_lb.Text = @"工作时间";
                     CodeNoteTomato.ShowBalloonTip(100, "CodeNode", "休息时间结束，工作时间开始!!循环:" + _tomatoNowCylce + "/" + _cfgTomatoCylce, ToolTipIcon.Info);
                 }
             }
+            
         }
         /*
          * 开始 
          */
         private void toolStripLabel1_Click(object sender, EventArgs e)
         {
-            StartBtn();
+            if (TimeState == "pause" || TimeState == "init")
+            {
+                StartBtn();
+                toolStripLabel1.Text = @"暂停";
+                if(_tomatoMiniWnd!=null&&!_tomatoMiniWnd.IsDisposed)
+                    _tomatoMiniWnd.开始ToolStripMenuItem.Text = @"暂停";
+            }else{
+                StopBtn();
+                toolStripLabel1.Text = @"开始";
+                if (_tomatoMiniWnd != null && !_tomatoMiniWnd.IsDisposed)
+                    _tomatoMiniWnd.开始ToolStripMenuItem.Text = @"开始";
+            }
         }
 
         public void StartBtn()
         {
-            if (_timeState == "pause")
+            if (TimeState == "pause")
             {
                 _timenow = DateTime.Now;
                 _time = DateTime.Now.AddSeconds(_tmspan.TotalSeconds);
                 if (_lastState == "running_tm")
                 { 
-                    _timeState = "running_tm";
+                    TimeState = "running_tm";
                     now_state_lb.Text = @"工作时间";
                 }
                 else if (_lastState == "running_break")
                 {
-                    _timeState = "running_break";
+                    TimeState = "running_break";
                     now_state_lb.Text = @"休息时间";
                 }
                 else if (_lastState == "running_break" && _tomatoNowCylce == _cfgTomatoCylce)
                 {
-                    _timeState = "running_break";
+                    TimeState = "running_break";
                     now_state_lb.Text = @"长休息时间";
                 }
             }
-            else if (_timeState == "init")
+            else if (TimeState == "init")
             {
                 _timenow = DateTime.Now;
                 _time = DateTime.Now.AddSeconds(_cfgTomatoTm);
-                _timeState = "running_tm";
+                TimeState = "running_tm";
                 now_state_lb.Text = @"工作时间";
             }
             timer1.Enabled = true;
         }
 
-        /*
-         * 暂停 
-         */
-        private void toolStripLabel2_Click(object sender, EventArgs e)
-        {
-            StopBtn();
-        }
-
         public void StopBtn()
         {
             timer1.Enabled = false;
-            _lastState = _timeState;
-            _timeState = "pause";
+            _lastState = TimeState;
+            TimeState = "pause";
             now_state_lb.Text = @"暂停";
         }
 
@@ -208,7 +219,7 @@ namespace CodeNote.tomato
         {
             _timenow = DateTime.Now;
             _time = DateTime.Now.AddSeconds(_cfgTomatoTm);
-            _timeState = "running_tm";
+            TimeState = "running_tm";
             now_state_lb.Text = @"工作时间";
             timer1.Enabled = true;
         }
@@ -219,19 +230,13 @@ namespace CodeNote.tomato
         {
             _timenow = DateTime.Now;
             _time = DateTime.Now.AddSeconds(_cfgTomatoTm);
-            _timeState = "running_tm";
+            TimeState = "running_tm";
             now_state_lb.Text = @"工作时间";
             _tomatoNowCylce = 1;
             cycle_count_lb.Text = @"循环:" + _tomatoNowCylce + @"/" + _cfgTomatoCylce;
             timer1.Enabled = true;
         }
-        /*
-         * 设置 
-         */
-        private void toolStripLabel4_Click(object sender, EventArgs e)
-        {
-            
-        }
+        
         /*
          * 新建任务按钮 
          */

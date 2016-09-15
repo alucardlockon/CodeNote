@@ -34,19 +34,23 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.开始ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.暂停ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关闭ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.task = new System.Windows.Forms.Label();
+            this.上一个任务ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.下一个任务ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.完成任务ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nowProgress = new System.Windows.Forms.ProgressBar();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // time_label
             // 
             this.time_label.AutoSize = true;
-            this.time_label.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.time_label.Font = new System.Drawing.Font("Consolas", 10F);
             this.time_label.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.time_label.Location = new System.Drawing.Point(123, 8);
+            this.time_label.Location = new System.Drawing.Point(123, 0);
             this.time_label.Name = "time_label";
-            this.time_label.Size = new System.Drawing.Size(45, 19);
+            this.time_label.Size = new System.Drawing.Size(40, 17);
             this.time_label.TabIndex = 3;
             this.time_label.Text = "时间";
             this.time_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -54,11 +58,11 @@
             // now_state_lb
             // 
             this.now_state_lb.AutoSize = true;
-            this.now_state_lb.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.now_state_lb.Font = new System.Drawing.Font("Consolas", 10F);
             this.now_state_lb.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.now_state_lb.Location = new System.Drawing.Point(0, 8);
+            this.now_state_lb.Location = new System.Drawing.Point(0, 0);
             this.now_state_lb.Name = "now_state_lb";
-            this.now_state_lb.Size = new System.Drawing.Size(45, 19);
+            this.now_state_lb.Size = new System.Drawing.Size(40, 17);
             this.now_state_lb.TabIndex = 7;
             this.now_state_lb.Text = "暂停";
             this.now_state_lb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -72,39 +76,72 @@
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.开始ToolStripMenuItem,
-            this.暂停ToolStripMenuItem,
+            this.完成任务ToolStripMenuItem,
+            this.上一个任务ToolStripMenuItem,
+            this.下一个任务ToolStripMenuItem,
             this.关闭ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(101, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(137, 114);
             // 
             // 开始ToolStripMenuItem
             // 
             this.开始ToolStripMenuItem.Name = "开始ToolStripMenuItem";
-            this.开始ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.开始ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.开始ToolStripMenuItem.Text = "开始";
             this.开始ToolStripMenuItem.Click += new System.EventHandler(this.开始ToolStripMenuItem_Click);
-            // 
-            // 暂停ToolStripMenuItem
-            // 
-            this.暂停ToolStripMenuItem.Name = "暂停ToolStripMenuItem";
-            this.暂停ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.暂停ToolStripMenuItem.Text = "暂停";
-            this.暂停ToolStripMenuItem.Click += new System.EventHandler(this.暂停ToolStripMenuItem_Click);
             // 
             // 关闭ToolStripMenuItem
             // 
             this.关闭ToolStripMenuItem.Name = "关闭ToolStripMenuItem";
-            this.关闭ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.关闭ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.关闭ToolStripMenuItem.Text = "关闭";
             this.关闭ToolStripMenuItem.Click += new System.EventHandler(this.关闭ToolStripMenuItem_Click);
+            // 
+            // task
+            // 
+            this.task.AutoSize = true;
+            this.task.Font = new System.Drawing.Font("Consolas", 10F);
+            this.task.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.task.Location = new System.Drawing.Point(1, 17);
+            this.task.Name = "task";
+            this.task.Size = new System.Drawing.Size(40, 17);
+            this.task.TabIndex = 8;
+            this.task.Text = "任务";
+            // 
+            // 上一个任务ToolStripMenuItem
+            // 
+            this.上一个任务ToolStripMenuItem.Name = "上一个任务ToolStripMenuItem";
+            this.上一个任务ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.上一个任务ToolStripMenuItem.Text = "上一个任务";
+            // 
+            // 下一个任务ToolStripMenuItem
+            // 
+            this.下一个任务ToolStripMenuItem.Name = "下一个任务ToolStripMenuItem";
+            this.下一个任务ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.下一个任务ToolStripMenuItem.Text = "下一个任务";
+            // 
+            // 完成任务ToolStripMenuItem
+            // 
+            this.完成任务ToolStripMenuItem.Name = "完成任务ToolStripMenuItem";
+            this.完成任务ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.完成任务ToolStripMenuItem.Text = "完成此任务";
+            // 
+            // nowProgress
+            // 
+            this.nowProgress.Location = new System.Drawing.Point(4, 35);
+            this.nowProgress.Name = "nowProgress";
+            this.nowProgress.Size = new System.Drawing.Size(170, 2);
+            this.nowProgress.TabIndex = 9;
             // 
             // Tomato_miniWnd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkSlateBlue;
-            this.ClientSize = new System.Drawing.Size(180, 30);
+            this.ClientSize = new System.Drawing.Size(180, 38);
             this.ContextMenuStrip = this.contextMenuStrip1;
+            this.Controls.Add(this.nowProgress);
+            this.Controls.Add(this.task);
             this.Controls.Add(this.now_state_lb);
             this.Controls.Add(this.time_label);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -132,7 +169,11 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 关闭ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 开始ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 暂停ToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem 开始ToolStripMenuItem;
+        private System.Windows.Forms.Label task;
+        private System.Windows.Forms.ToolStripMenuItem 完成任务ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 上一个任务ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 下一个任务ToolStripMenuItem;
+        private System.Windows.Forms.ProgressBar nowProgress;
     }
 }

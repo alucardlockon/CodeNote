@@ -57,6 +57,9 @@ namespace CodeNote.tomato
             {
                 time_label.ForeColor = tomato_work.CfgMiniwndFontcolor;
             }
+            nowProgress.Minimum = tomato_work.nowProgress.Minimum;
+            nowProgress.Maximum = tomato_work.nowProgress.Maximum;
+            nowProgress.Value = tomato_work.nowProgress.Value;
         }
 
         private void 关闭ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -66,12 +69,18 @@ namespace CodeNote.tomato
 
         private void 开始ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            tomato_work.StartBtn();
-        }
-
-        private void 暂停ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            tomato_work.StopBtn();
+            if (tomato_work.TimeState == "pause" || tomato_work.TimeState == "init")
+            {
+                tomato_work.StartBtn();
+                开始ToolStripMenuItem.Text = @"暂停";
+                tomato_work.toolStripLabel1.Text = @"暂停";
+            }
+            else
+            {
+                tomato_work.StopBtn();
+                开始ToolStripMenuItem.Text = @"开始";
+                tomato_work.toolStripLabel1.Text = @"开始";
+            }
         }
 
         private void Tomato_miniWnd_DoubleClick(object sender, EventArgs e)
