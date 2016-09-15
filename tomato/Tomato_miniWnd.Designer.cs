@@ -33,9 +33,9 @@
             this.now_state_lb = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.关闭ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.开始ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.暂停ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.关闭ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,7 +44,7 @@
             this.time_label.AutoSize = true;
             this.time_label.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.time_label.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.time_label.Location = new System.Drawing.Point(123, 3);
+            this.time_label.Location = new System.Drawing.Point(123, 8);
             this.time_label.Name = "time_label";
             this.time_label.Size = new System.Drawing.Size(45, 19);
             this.time_label.TabIndex = 3;
@@ -56,7 +56,7 @@
             this.now_state_lb.AutoSize = true;
             this.now_state_lb.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.now_state_lb.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.now_state_lb.Location = new System.Drawing.Point(0, 3);
+            this.now_state_lb.Location = new System.Drawing.Point(0, 8);
             this.now_state_lb.Name = "now_state_lb";
             this.now_state_lb.Size = new System.Drawing.Size(45, 19);
             this.now_state_lb.TabIndex = 7;
@@ -77,33 +77,33 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(101, 70);
             // 
-            // 关闭ToolStripMenuItem
-            // 
-            this.关闭ToolStripMenuItem.Name = "关闭ToolStripMenuItem";
-            this.关闭ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.关闭ToolStripMenuItem.Text = "关闭";
-            this.关闭ToolStripMenuItem.Click += new System.EventHandler(this.关闭ToolStripMenuItem_Click);
-            // 
             // 开始ToolStripMenuItem
             // 
             this.开始ToolStripMenuItem.Name = "开始ToolStripMenuItem";
-            this.开始ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.开始ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.开始ToolStripMenuItem.Text = "开始";
             this.开始ToolStripMenuItem.Click += new System.EventHandler(this.开始ToolStripMenuItem_Click);
             // 
             // 暂停ToolStripMenuItem
             // 
             this.暂停ToolStripMenuItem.Name = "暂停ToolStripMenuItem";
-            this.暂停ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.暂停ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.暂停ToolStripMenuItem.Text = "暂停";
             this.暂停ToolStripMenuItem.Click += new System.EventHandler(this.暂停ToolStripMenuItem_Click);
+            // 
+            // 关闭ToolStripMenuItem
+            // 
+            this.关闭ToolStripMenuItem.Name = "关闭ToolStripMenuItem";
+            this.关闭ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.关闭ToolStripMenuItem.Text = "关闭";
+            this.关闭ToolStripMenuItem.Click += new System.EventHandler(this.关闭ToolStripMenuItem_Click);
             // 
             // Tomato_miniWnd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkSlateBlue;
-            this.ClientSize = new System.Drawing.Size(180, 20);
+            this.ClientSize = new System.Drawing.Size(180, 30);
             this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.now_state_lb);
             this.Controls.Add(this.time_label);
@@ -116,6 +116,7 @@
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.WhiteSmoke;
             this.Load += new System.EventHandler(this.Tomato_miniWnd_Load);
+            this.DoubleClick += new System.EventHandler(this.Tomato_miniWnd_DoubleClick);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Tomato_miniWnd_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Tomato_miniWnd_MouseMove);
             this.contextMenuStrip1.ResumeLayout(false);
