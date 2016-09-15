@@ -21,6 +21,7 @@ namespace CodeNote
         private static Tomato_setting tomato_setting;
         private static Tomato_list tomato_list;
         private static Tomato_fq tomato_fq;
+        private static Tomato_miniWnd tomato_miniWnd;
         //运行时变量
         private string time_state = "init";
         private DateTime time = new DateTime();
@@ -33,6 +34,13 @@ namespace CodeNote
         private int cfg_break_tm = 300;
         private int cfg_long_break_tm = 900;
         private int cfg_tomato_cylce = 4;
+        public Color cfg_countdown_color = Color.Red;
+        private double cfg_countdown_percent = 0.05d;
+        //悬浮窗参数
+        public Color cfg_miniwnd_color = Color.DarkSlateBlue;
+        public Color cfg_miniwnd_fontcolor = Color.White;
+        public double cfg_miniwnd_opacity = 0.5d;
+        public bool colorChange = false;
         //list参数
         private ArrayList tasklist = new ArrayList(); //tomato_task
         //是否置顶标志
@@ -61,6 +69,16 @@ namespace CodeNote
                 tmspan = time - timenow;
                 if(tmspan.Ticks>0){
                     time_label.Text = tmspan.Minutes + ":" + tmspan.Seconds;
+                    if (tmspan.TotalSeconds <= cfg_tomato_tm *cfg_countdown_percent && time_label.ForeColor != cfg_countdown_color)
+                    {
+                        time_label.ForeColor = cfg_countdown_color;
+                        colorChange = true;
+                    }
+                    else if (tmspan.TotalSeconds > cfg_tomato_tm * cfg_countdown_percent && time_label.ForeColor == cfg_countdown_color)
+                    {
+                        time_label.ForeColor = Color.Black;
+                        colorChange = false;
+                    }
                 }else {
                     timenow = DateTime.Now;
                     if (tomato_now_cylce < cfg_tomato_cylce)
@@ -95,6 +113,25 @@ namespace CodeNote
                 if (tmspan.Ticks > 0)
                 {
                     time_label.Text = tmspan.Minutes + ":" + tmspan.Seconds;
+                    int break_tm = 0;
+                    if (now_state_lb.Text == "长休息时间")
+                    {
+                        break_tm = cfg_long_break_tm;
+                    }
+                    else
+                    {
+                        break_tm = cfg_break_tm;
+                    }
+                    if (tmspan.TotalSeconds <= break_tm * cfg_countdown_percent && time_label.ForeColor != cfg_countdown_color)
+                    {
+                        time_label.ForeColor = cfg_countdown_color;
+                        colorChange = true;
+                    }
+                    else if (tmspan.TotalSeconds > break_tm * cfg_countdown_percent && time_label.ForeColor == cfg_countdown_color)
+                    {
+                        time_label.ForeColor = Color.Black;
+                        colorChange = false;
+                    }
                 }
                 else
                 {
@@ -102,7 +139,7 @@ namespace CodeNote
                         tomato_now_cylce++;
                     }else{
                         tomato_now_cylce = 1 ;
-                        SetXmlConfig("config/tomato_user.xml", "/user/total_cycle", Convert.ToString(Convert.ToInt32(GetXmlConfig("config/tomato_user.xml", "/user/total_cycle") + 1)));
+                        SetXmlConfig("config/tomato_user.xml", "/user/total_cycle", Convert.ToString(Convert.ToInt32(GetXmlConfig("config/tomato_user.xml", "/user/total_cycle")) + 1));
                         total_cycle_lb.Text = "总循环:" + GetXmlConfig("config/tomato_user.xml", "/user/total_cycle");
                     }
                     cycle_count_lb.Text = "循环:" + tomato_now_cylce + "/" + cfg_tomato_cylce;
@@ -119,9 +156,14 @@ namespace CodeNote
          */
         private void toolStripLabel1_Click(object sender, EventArgs e)
         {
+            startBtn();
+        }
+
+        public void startBtn()
+        {
             if (time_state == "pause")
             {
-                timenow = DateTime.Now ;
+                timenow = DateTime.Now;
                 time = DateTime.Now.AddSeconds(tmspan.TotalSeconds);
             }
             else if (time_state == "init")
@@ -133,15 +175,22 @@ namespace CodeNote
             now_state_lb.Text = "工作时间";
             timer1.Enabled = true;
         }
+
         /*
          * 暂停 
          */
         private void toolStripLabel2_Click(object sender, EventArgs e)
         {
+            stopBtn();
+        }
+
+        public void stopBtn()
+        {
             timer1.Enabled = false;
             time_state = "pause";
             now_state_lb.Text = "暂停";
         }
+
         /*
          * 重新开始 
          */
@@ -230,6 +279,11 @@ namespace CodeNote
             cfg_break_tm = Convert.ToInt32(GetXmlConfig("config/tomato_cfg.xml", "/config/break_tm"));
             cfg_long_break_tm = Convert.ToInt32(GetXmlConfig("config/tomato_cfg.xml", "/config/long_break_tm"));
             cfg_tomato_cylce = Convert.ToInt32(GetXmlConfig("config/tomato_cfg.xml", "/config/tomato_cylce"));
+            cfg_countdown_color = ColorTranslator.FromHtml(GetXmlConfig("config/tomato_cfg.xml", "/config/countdown_color"));
+            cfg_countdown_percent = Convert.ToDouble(GetXmlConfig("config/tomato_cfg.xml", "/config/countdown_percent"));
+            cfg_miniwnd_color = ColorTranslator.FromHtml(GetXmlConfig("config/tomato_cfg.xml", "/config/miniwnd_color"));
+            cfg_miniwnd_fontcolor = ColorTranslator.FromHtml(GetXmlConfig("config/tomato_cfg.xml", "/config/miniwnd_fontcolor"));
+            cfg_miniwnd_opacity = Convert.ToDouble(GetXmlConfig("config/tomato_cfg.xml", "/config/miniwnd_opacity"));
             //初始化界面
             cycle_count_lb.Text = "循环:" + tomato_now_cylce + "/" + cfg_tomato_cylce;
             tomato_count = Convert.ToInt32(GetXmlConfig("config/tomato_user.xml", "/user/tomato_count"));
@@ -358,6 +412,7 @@ namespace CodeNote
         {
             CodeNoteTomato.Visible = false;
             Application.Exit();
+            Application.ExitThread();
         }
 
         //最小化到托盘
@@ -381,6 +436,7 @@ namespace CodeNote
         {
             CodeNoteTomato.Visible = false;
             Application.Exit();
+            Application.ExitThread();
         }
 
         private void 首选项ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -430,7 +486,35 @@ namespace CodeNote
             
         }
 
-        
+        private void 打开悬浮窗ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenMiniWnd();
+        }
+        private void 打开悬浮窗ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            OpenMiniWnd();
+        }
+
+        private void OpenMiniWnd()
+        {
+            if (tomato_miniWnd == null || tomato_miniWnd.IsDisposed)
+            {
+                tomato_miniWnd = new Tomato_miniWnd(this);
+                tomato_miniWnd.Show();
+            }
+        }
+
+        public string TimeLabelText
+        {
+            get { return time_label.Text; }
+            set { time_label.Text = value; }
+        }
+
+        public string NowStateLbText
+        {
+            get { return now_state_lb.Text; }
+            set { now_state_lb.Text = value; }
+        }
 
     }
 }
