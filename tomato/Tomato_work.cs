@@ -24,6 +24,7 @@ namespace CodeNote
         private static Tomato_miniWnd tomato_miniWnd;
         //运行时变量
         private string time_state = "init";
+        private string last_state = "init";
         private DateTime time = new DateTime();
         private DateTime timenow = new DateTime();
         private TimeSpan tmspan=new TimeSpan();
@@ -53,6 +54,7 @@ namespace CodeNote
 
         private void Tomato_work_Load(object sender, EventArgs e)
         {
+            this.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - this.Width - 100, Screen.PrimaryScreen.WorkingArea.Height/2-this.Width/2-100);
             time_label.Text = "00:00";
             Init();
         }
@@ -165,14 +167,28 @@ namespace CodeNote
             {
                 timenow = DateTime.Now;
                 time = DateTime.Now.AddSeconds(tmspan.TotalSeconds);
+                if (last_state == "running_tm") { 
+                    time_state = "running_tm";
+                    now_state_lb.Text = "工作时间";
+                }
+                else if (last_state == "running_break")
+                {
+                    time_state = "running_break";
+                    now_state_lb.Text = "休息时间";
+                }
+                else if (last_state == "running_break" && tomato_now_cylce == cfg_tomato_cylce)
+                {
+                    time_state = "running_break";
+                    now_state_lb.Text = "长休息时间";
+                }
             }
             else if (time_state == "init")
             {
                 timenow = DateTime.Now;
                 time = DateTime.Now.AddSeconds(cfg_tomato_tm);
+                time_state = "running_tm";
+                now_state_lb.Text = "工作时间";
             }
-            time_state = "running_tm";
-            now_state_lb.Text = "工作时间";
             timer1.Enabled = true;
         }
 
@@ -187,6 +203,7 @@ namespace CodeNote
         public void stopBtn()
         {
             timer1.Enabled = false;
+            last_state = time_state;
             time_state = "pause";
             now_state_lb.Text = "暂停";
         }

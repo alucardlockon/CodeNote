@@ -96,48 +96,48 @@
     <Compile Include="domain\tomato\TomatoCfg.cs" />
     <Compile Include="domain\tomato\TomatoList.cs" />
     <Compile Include="domain\tomato\TomatoUser.cs" />
-    <Compile Include="Main.cs">
+    <Compile Include="codenote\Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main.Designer.cs">
+    <Compile Include="codenote\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tomato_fq.cs">
+    <Compile Include="tomato\Tomato_fq.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tomato_fq.Designer.cs">
+    <Compile Include="tomato\Tomato_fq.Designer.cs">
       <DependentUpon>Tomato_fq.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tomato_list.cs">
+    <Compile Include="tomato\Tomato_list.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tomato_list.Designer.cs">
+    <Compile Include="tomato\Tomato_list.Designer.cs">
       <DependentUpon>Tomato_list.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tomato_miniWnd.cs">
+    <Compile Include="tomato\Tomato_miniWnd.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tomato_miniWnd.Designer.cs">
+    <Compile Include="tomato\Tomato_miniWnd.Designer.cs">
       <DependentUpon>Tomato_miniWnd.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tomato_setting.cs">
+    <Compile Include="tomato\Tomato_setting.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tomato_setting.Designer.cs">
+    <Compile Include="tomato\Tomato_setting.Designer.cs">
       <DependentUpon>Tomato_setting.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tomato_work.cs">
+    <Compile Include="tomato\Tomato_work.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tomato_work.Designer.cs">
+    <Compile Include="tomato\Tomato_work.Designer.cs">
       <DependentUpon>Tomato_work.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main.resx">
+    <EmbeddedResource Include="codenote\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -150,19 +150,19 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Tomato_fq.resx">
+    <EmbeddedResource Include="tomato\Tomato_fq.resx">
       <DependentUpon>Tomato_fq.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tomato_list.resx">
+    <EmbeddedResource Include="tomato\Tomato_list.resx">
       <DependentUpon>Tomato_list.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tomato_miniWnd.resx">
+    <EmbeddedResource Include="tomato\Tomato_miniWnd.resx">
       <DependentUpon>Tomato_miniWnd.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tomato_setting.resx">
+    <EmbeddedResource Include="tomato\Tomato_setting.resx">
       <DependentUpon>Tomato_setting.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="tomato_work.resx">
+    <EmbeddedResource Include="tomato\tomato_work.resx">
       <DependentUpon>Tomato_work.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest">
@@ -238,6 +238,9 @@
     <Content Include="html\js\md2html.js" />
     <Content Include="html\js\npm.js" />
     <Content Include="html\js\to-markdown.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="notedata\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

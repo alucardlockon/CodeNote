@@ -78,6 +78,18 @@ namespace CodeNote
             tomato_work.stopBtn();
         }
 
+        private void Tomato_miniWnd_DoubleClick(object sender, EventArgs e)
+        {
+            if (tomato_work != null && !tomato_work.IsDisposed)
+            {
+                tomato_work.Visible = !tomato_work.Visible;
+            }
+            else
+            {
+                tomato_work.Show();
+            }
+        }
+
         
     }
 }
