@@ -1,6 +1,6 @@
-﻿namespace CodeNote
+﻿namespace CodeNote.tomato
 {
-    partial class Tomato_work
+    partial class TomatoWork
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Tomato_work));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TomatoWork));
             this.cmenus_task_list = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -358,7 +358,7 @@
             this.task_list.TabIndex = 12;
             this.task_list.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.task_list_ItemCheck);
             // 
-            // Tomato_work
+            // TomatoWork
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -378,7 +378,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "Tomato_work";
+            this.Name = "TomatoWork";
             this.Text = "番茄小工具";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Tomato_work_FormClosing);
             this.Load += new System.EventHandler(this.Tomato_work_Load);

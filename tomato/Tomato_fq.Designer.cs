@@ -1,6 +1,6 @@
-﻿namespace CodeNote
+﻿namespace CodeNote.tomato
 {
-    partial class Tomato_fq
+    partial class TomatoFq
     {
         /// <summary>
         /// Required designer variable.
@@ -103,7 +103,7 @@
             this.Controls.Add(this.txt_url);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "Tomato_fq";
+            this.Name = "TomatoFq";
             this.Text = "好番茄";
             this.Load += new System.EventHandler(this.Tomato_fq_Load);
             this.ResumeLayout(false);

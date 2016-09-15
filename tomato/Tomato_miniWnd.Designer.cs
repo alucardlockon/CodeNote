@@ -1,4 +1,4 @@
-﻿namespace CodeNote
+﻿namespace CodeNote.tomato
 {
     partial class Tomato_miniWnd
     {
