@@ -41,6 +41,8 @@
             this.cmenus_settings = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.首选项ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.置顶ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开悬浮窗ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.fqToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.time_label = new System.Windows.Forms.Label();
@@ -57,9 +59,9 @@
             this.CodeNoteTomato = new System.Windows.Forms.NotifyIcon(this.components);
             this.cmenus_notifybar = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开悬浮窗ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.task_list = new System.Windows.Forms.CheckedListBox();
-            this.fqToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmenus_task_list.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.cmenus_settings.SuspendLayout();
@@ -150,11 +152,13 @@
             this.cmenus_settings.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.首选项ToolStripMenuItem,
             this.置顶ToolStripMenuItem,
+            this.打开悬浮窗ToolStripMenuItem1,
             this.fqToolStripMenuItem,
             this.toolStripMenuItem2,
             this.退出ToolStripMenuItem1});
             this.cmenus_settings.Name = "cmenus_settings";
-            this.cmenus_settings.Size = new System.Drawing.Size(153, 136);
+            this.cmenus_settings.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.cmenus_settings.Size = new System.Drawing.Size(137, 136);
             // 
             // 首选项ToolStripMenuItem
             // 
@@ -169,6 +173,20 @@
             this.置顶ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.置顶ToolStripMenuItem.Text = "置顶";
             this.置顶ToolStripMenuItem.Click += new System.EventHandler(this.置顶ToolStripMenuItem_Click);
+            // 
+            // 打开悬浮窗ToolStripMenuItem1
+            // 
+            this.打开悬浮窗ToolStripMenuItem1.Name = "打开悬浮窗ToolStripMenuItem1";
+            this.打开悬浮窗ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.打开悬浮窗ToolStripMenuItem1.Text = "打开悬浮窗";
+            this.打开悬浮窗ToolStripMenuItem1.Click += new System.EventHandler(this.打开悬浮窗ToolStripMenuItem1_Click);
+            // 
+            // fqToolStripMenuItem
+            // 
+            this.fqToolStripMenuItem.Name = "fqToolStripMenuItem";
+            this.fqToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fqToolStripMenuItem.Text = "好番茄";
+            this.fqToolStripMenuItem.Click += new System.EventHandler(this.fqToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -187,10 +205,10 @@
             // time_label
             // 
             this.time_label.AutoSize = true;
-            this.time_label.Font = new System.Drawing.Font("宋体", 20F);
+            this.time_label.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.time_label.Location = new System.Drawing.Point(180, 25);
             this.time_label.Name = "time_label";
-            this.time_label.Size = new System.Drawing.Size(66, 27);
+            this.time_label.Size = new System.Drawing.Size(75, 32);
             this.time_label.TabIndex = 2;
             this.time_label.Text = "时间";
             this.time_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -203,10 +221,10 @@
             // cycle_count_lb
             // 
             this.cycle_count_lb.AutoSize = true;
-            this.cycle_count_lb.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cycle_count_lb.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cycle_count_lb.Location = new System.Drawing.Point(8, 34);
             this.cycle_count_lb.Name = "cycle_count_lb";
-            this.cycle_count_lb.Size = new System.Drawing.Size(56, 16);
+            this.cycle_count_lb.Size = new System.Drawing.Size(63, 19);
             this.cycle_count_lb.TabIndex = 3;
             this.cycle_count_lb.Text = "循环:0";
             this.cycle_count_lb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -214,10 +232,10 @@
             // total_tomato_cnt_lb
             // 
             this.total_tomato_cnt_lb.AutoSize = true;
-            this.total_tomato_cnt_lb.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.total_tomato_cnt_lb.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.total_tomato_cnt_lb.Location = new System.Drawing.Point(8, 59);
             this.total_tomato_cnt_lb.Name = "total_tomato_cnt_lb";
-            this.total_tomato_cnt_lb.Size = new System.Drawing.Size(72, 16);
+            this.total_tomato_cnt_lb.Size = new System.Drawing.Size(81, 19);
             this.total_tomato_cnt_lb.TabIndex = 4;
             this.total_tomato_cnt_lb.Text = "番茄数:0";
             this.total_tomato_cnt_lb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -225,10 +243,10 @@
             // today_tomato_cnt_lb
             // 
             this.today_tomato_cnt_lb.AutoSize = true;
-            this.today_tomato_cnt_lb.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.today_tomato_cnt_lb.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.today_tomato_cnt_lb.Location = new System.Drawing.Point(100, 59);
             this.today_tomato_cnt_lb.Name = "today_tomato_cnt_lb";
-            this.today_tomato_cnt_lb.Size = new System.Drawing.Size(56, 16);
+            this.today_tomato_cnt_lb.Size = new System.Drawing.Size(63, 19);
             this.today_tomato_cnt_lb.TabIndex = 5;
             this.today_tomato_cnt_lb.Text = "今日:0";
             this.today_tomato_cnt_lb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -236,10 +254,10 @@
             // now_state_lb
             // 
             this.now_state_lb.AutoSize = true;
-            this.now_state_lb.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.now_state_lb.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.now_state_lb.Location = new System.Drawing.Point(83, 34);
             this.now_state_lb.Name = "now_state_lb";
-            this.now_state_lb.Size = new System.Drawing.Size(40, 16);
+            this.now_state_lb.Size = new System.Drawing.Size(45, 19);
             this.now_state_lb.TabIndex = 6;
             this.now_state_lb.Text = "暂停";
             this.now_state_lb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -247,10 +265,10 @@
             // total_cycle_lb
             // 
             this.total_cycle_lb.AutoSize = true;
-            this.total_cycle_lb.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.total_cycle_lb.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.total_cycle_lb.Location = new System.Drawing.Point(174, 59);
             this.total_cycle_lb.Name = "total_cycle_lb";
-            this.total_cycle_lb.Size = new System.Drawing.Size(72, 16);
+            this.total_cycle_lb.Size = new System.Drawing.Size(81, 19);
             this.total_cycle_lb.TabIndex = 7;
             this.total_cycle_lb.Text = "总循环:0";
             this.total_cycle_lb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -302,21 +320,29 @@
             // 
             this.cmenus_notifybar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.打开ToolStripMenuItem,
+            this.打开悬浮窗ToolStripMenuItem,
             this.退出ToolStripMenuItem});
             this.cmenus_notifybar.Name = "cmenus_notifybar";
-            this.cmenus_notifybar.Size = new System.Drawing.Size(101, 48);
+            this.cmenus_notifybar.Size = new System.Drawing.Size(137, 70);
             // 
             // 打开ToolStripMenuItem
             // 
             this.打开ToolStripMenuItem.Name = "打开ToolStripMenuItem";
-            this.打开ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.打开ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.打开ToolStripMenuItem.Text = "打开";
             this.打开ToolStripMenuItem.Click += new System.EventHandler(this.打开ToolStripMenuItem_Click);
+            // 
+            // 打开悬浮窗ToolStripMenuItem
+            // 
+            this.打开悬浮窗ToolStripMenuItem.Name = "打开悬浮窗ToolStripMenuItem";
+            this.打开悬浮窗ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.打开悬浮窗ToolStripMenuItem.Text = "打开悬浮窗";
+            this.打开悬浮窗ToolStripMenuItem.Click += new System.EventHandler(this.打开悬浮窗ToolStripMenuItem_Click);
             // 
             // 退出ToolStripMenuItem
             // 
             this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.退出ToolStripMenuItem.Text = "退出";
             this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
             // 
@@ -330,13 +356,6 @@
             this.task_list.Size = new System.Drawing.Size(272, 324);
             this.task_list.TabIndex = 12;
             this.task_list.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.task_list_ItemCheck);
-            // 
-            // fqToolStripMenuItem
-            // 
-            this.fqToolStripMenuItem.Name = "fqToolStripMenuItem";
-            this.fqToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.fqToolStripMenuItem.Text = "好番茄";
-            this.fqToolStripMenuItem.Click += new System.EventHandler(this.fqToolStripMenuItem_Click);
             // 
             // Tomato_work
             // 
@@ -356,6 +375,8 @@
             this.Controls.Add(this.time_label);
             this.Controls.Add(this.toolStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Tomato_work";
             this.Text = "番茄小工具";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Tomato_work_FormClosing);
@@ -403,5 +424,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.CheckedListBox task_list;
         private System.Windows.Forms.ToolStripMenuItem fqToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 打开悬浮窗ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 打开悬浮窗ToolStripMenuItem1;
     }
 }

@@ -12,4 +12,19 @@
   <tomato_cylce>
     4
   </tomato_cylce>
+  <countdown_color>
+    #FF0000
+  </countdown_color>
+  <countdown_percent>
+    0.05
+  </countdown_percent>
+  <miniwnd_color>
+    #3366FF
+  </miniwnd_color>
+  <miniwnd_fontcolor>
+    #FFFFFF
+  </miniwnd_fontcolor>
+  <miniwnd_opacity>
+    0.5
+  </miniwnd_opacity>
 </config>
