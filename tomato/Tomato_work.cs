@@ -267,11 +267,14 @@ namespace CodeNote.tomato
             nodeDatetime.InnerText = task.Datetime;
             XmlElement nodeState = doc.CreateElement("state");
             nodeState.InnerText = task.State;
+            XmlElement nodeSublist = doc.CreateElement("sublist");
+            nodeSublist.InnerText = task.Sublist;
             nodeTask.AppendChild(nodeId);
             nodeTask.AppendChild(nodeTitle);
             nodeTask.AppendChild(nodeContent);
             nodeTask.AppendChild(nodeDatetime);
             nodeTask.AppendChild(nodeState);
+            nodeTask.AppendChild(nodeSublist);
             listnode.AppendChild(nodeTask);
             _tasklist.Insert(0,task);
             doc.Save("config/tomato_list.xml");

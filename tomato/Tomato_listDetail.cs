@@ -44,8 +44,8 @@ namespace CodeNote.tomato
             task.Title = txt_title.Text;
             task.Content = txt_content.Text;
             task.State = _NowTask.State;
-            ReloadSubList();
-            task.Sublist = _NowTask.Sublist;
+            ReloadSubList(!ch_showList.Checked);
+            //task.Sublist = _NowTask.Sublist;
             SetTaskList("config/tomato_list.xml", "/list/task[id=" + _NowTask.Id + "]",task);
             _tomatoWork.ReloadList();
             
@@ -63,28 +63,68 @@ namespace CodeNote.tomato
         {
             if (ch_showList.Checked)
             {
-                _NowTask.Sublist = txt_sublist.Text;
                 string subliststring = "";
-                foreach (string a in _NowTask.Sublist.Split("\r\n".ToCharArray()))
+                if (_NowTask.Sublist.Split("\r\n".ToCharArray()).Length > 0)
                 {
-                    if (a.Length > 0)
+                    foreach (string a in _NowTask.Sublist.Split("\r\n".ToCharArray()))
                     {
-                        if (!a.StartsWith("(o)") && !a.StartsWith("(x)"))
+                        if (a.Length > 0)
                         {
-                            subliststring += "(x)" + a + "\r\n";
-                        }
-                        else
-                        {
-                            subliststring += a + "\r\n";
+                            if (!a.StartsWith("(o)") && !a.StartsWith("(x)"))
+                            {
+                                subliststring += "(x)" + a + "\r\n";
+                            }
+                            else
+                            {
+                                subliststring += a + "\r\n";
+                            }
                         }
                     }
+                }
+                else
+                {
+                    subliststring = _NowTask.Sublist;
                 }
                 txt_sublist.Text = subliststring;
                 _NowTask.Sublist = subliststring;
             }
             else
             {
-                _NowTask.Sublist = txt_sublist.Text;
+                txt_sublist.Text = _NowTask.Sublist.Replace("(o)", "").Replace("(x)", "");
+            }
+        }
+
+        private void ReloadSubList(bool check)
+        {
+            if (check)
+            {
+                string subliststring = "";
+                if (_NowTask.Sublist.Split("\r\n".ToCharArray()).Length > 0)
+                {
+                    foreach (string a in _NowTask.Sublist.Split("\r\n".ToCharArray()))
+                    {
+                        if (a.Length > 0)
+                        {
+                            if (!a.StartsWith("(o)") && !a.StartsWith("(x)"))
+                            {
+                                subliststring += "(x)" + a + "\r\n";
+                            }
+                            else
+                            {
+                                subliststring += a + "\r\n";
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    subliststring = _NowTask.Sublist;
+                }
+                txt_sublist.Text = subliststring;
+                _NowTask.Sublist = subliststring;
+            }
+            else
+            {
                 txt_sublist.Text = _NowTask.Sublist.Replace("(o)", "").Replace("(x)", "");
             }
         }
@@ -171,8 +211,13 @@ namespace CodeNote.tomato
                     node.AppendChild(ele);
                 }
                 var n6 = node.SelectSingleNode("sublist");
-                if (n6 != null)
+                if (n6 != null){
+                    if (string.IsNullOrEmpty(task.Sublist))
+                    {
+                        task.Sublist = "";
+                    }
                     n6.InnerText = task.Sublist.Trim();
+                }
                 else
                 {
                     XmlElement ele = doc.CreateElement("sublist");
@@ -185,6 +230,7 @@ namespace CodeNote.tomato
 
         private void ch_showList_CheckedChanged(object sender, EventArgs e)
         {
+            _NowTask.Sublist = txt_sublist.Text;
             _tomatoWork.CfgShowDetailList = ch_showList.Checked;
             SetXmlConfig("config/tomato_cfg.xml", "/config/show_detail_list", ch_showList.Checked.ToString());
             ReloadSubList();
