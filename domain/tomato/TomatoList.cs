@@ -28,6 +28,7 @@ namespace CodeNote.domain.tomato
         private string content;
         private string datetime;
         private string state;
+        private string sublist;
         public int Id
         {
             get { return id; }
@@ -53,6 +54,12 @@ namespace CodeNote.domain.tomato
             get { return state; }
             set { state = value; }
         }
+        public string Sublist
+        {
+            get { return sublist; }
+            set { sublist = value; }
+        }
+
         public override string ToString()
         {
             string str = "";

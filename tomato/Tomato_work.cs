@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
@@ -15,6 +15,7 @@ namespace CodeNote.tomato
         private static TomatoList _tomatoList;
         private static TomatoFq _tomatoFq;
         private static Tomato_miniWnd _tomatoMiniWnd;
+        private static Tomato_listDetail _tomatoListDetail;
         //运行时变量
         public string TimeState = "init";
         private string _lastState = "init";
@@ -23,6 +24,7 @@ namespace CodeNote.tomato
         private TimeSpan _tmspan;
         private int _tomatoNowCylce = 1;
         private int _tomatoCount;
+        private Point mPoint = new Point();
         //cfg参数
         private int _cfgTomatoTm = 1500;
         private int _cfgBreakTm = 300;
@@ -30,6 +32,7 @@ namespace CodeNote.tomato
         private int _cfgTomatoCylce = 4;
         public Color CfgCountdownColor = Color.Red;
         private double _cfgCountdownPercent = 0.05d;
+        public bool CfgShowDetailList = false;
         //悬浮窗参数
         public Color CfgMiniwndColor = Color.DarkSlateBlue;
         public Color CfgMiniwndFontcolor = Color.White;
@@ -47,9 +50,10 @@ namespace CodeNote.tomato
 
         private void Tomato_work_Load(object sender, EventArgs e)
         {
-            this.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - this.Width - 100, Screen.PrimaryScreen.WorkingArea.Height/2-this.Width/2-100);
+            Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - Width - 100, Screen.PrimaryScreen.WorkingArea.Height/2-Width/2-100);
             time_label.Text = @"00:00";
             Init();
+            
         }
 
         /**
@@ -245,9 +249,9 @@ namespace CodeNote.tomato
             XmlDocument doc = new XmlDocument();
             doc.Load("config/tomato_list.xml");
             XmlNode listnode=doc.SelectSingleNode("/list");
-            XmlNode lastnode = doc.SelectSingleNode("/list").LastChild;
             TomatoTask task = new TomatoTask();
-            task.Id = Convert.ToInt32(lastnode.SelectSingleNode("id").InnerText.Trim()) + 1;
+            task.Id = Convert.ToInt32(GetXmlConfig("config/tomato_list.xml","/list/maxid")) + 1;
+            
             task.Title = txt_title.Text;
             task.Content = txt_content.Text;
             task.Datetime = txt_time.Text;
@@ -274,18 +278,9 @@ namespace CodeNote.tomato
             txt_title.Text = "";
             txt_content.Text="";
             txt_time.Text="";
-            task_list.DataSource = null;
-            task_list.DataSource = _tasklist;
-            //勾选任务列表
-            int i = 0;
-            foreach (TomatoTask task2 in _tasklist)
-            {
-                if (task2.State == "1")
-                {
-                    task_list.SetItemChecked(i, true);
-                }
-                i++;
-            }
+
+            SetXmlConfig("config/tomato_list.xml", "/list/maxid", task.Id.ToString());
+            ReloadList();
         }
         public void Init()
         {
@@ -299,6 +294,7 @@ namespace CodeNote.tomato
             CfgMiniwndColor = ColorTranslator.FromHtml(GetXmlConfig("config/tomato_cfg.xml", "/config/miniwnd_color"));
             CfgMiniwndFontcolor = ColorTranslator.FromHtml(GetXmlConfig("config/tomato_cfg.xml", "/config/miniwnd_fontcolor"));
             CfgMiniwndOpacity = Convert.ToDouble(GetXmlConfig("config/tomato_cfg.xml", "/config/miniwnd_opacity"));
+            CfgShowDetailList = Convert.ToBoolean(GetXmlConfig("config/tomato_cfg.xml", "/config/show_detail_list"));
             //初始化界面
             cycle_count_lb.Text = @"循环:" + _tomatoNowCylce + @"/" + _cfgTomatoCylce;
             _tomatoCount = Convert.ToInt32(GetXmlConfig("config/tomato_user.xml", "/user/tomato_count"));
@@ -311,20 +307,91 @@ namespace CodeNote.tomato
             }
             total_tomato_cnt_lb.Text = @"番茄数:" + _tomatoCount;
             total_cycle_lb.Text = @"总循环:" + GetXmlConfig("config/tomato_user.xml", "/user/total_cycle");
+
+            ReloadList();
+        }
+
+        public void ReloadList()
+        {
+            panel1.Controls.Clear();
+            
             //初始化任务列表
             _tasklist = GetXmlConfigList("config/tomato_list.xml", "/list/task");
-            task_list.DataSource = _tasklist;
+
+            var task_list = new List<Control>();
             //勾选任务列表
-            int i=0;
+            Graphics graphics = CreateGraphics();
+            int i = 0;
+            int heigth = 0;
             foreach (TomatoTask task in _tasklist)
             {
-                if(task.State=="1"){
-                    task_list.SetItemChecked(i,true);
+                CheckBox chbox = new CheckBox();
+                Label lb = new Label();
+                chbox.Text = "";
+                string content = "";
+                if (!string.IsNullOrEmpty(task.Datetime)) content += "[" + task.Datetime + "]";
+                if (!string.IsNullOrEmpty(task.Title)) content += "(" + task.Title + ")";
+                if (!string.IsNullOrEmpty(task.Content)) content += ":" + task.Content;
+                lb.Text = content;
+                lb.Name = "label_" + task.Id;
+                chbox.Name = "chbox_" + task.Id;
+                chbox.AutoSize = false;
+                lb.AutoSize = false;
+                chbox.CheckAlign = ContentAlignment.TopLeft;
+                lb.TextAlign = ContentAlignment.TopLeft;
+                int rowcnt = (int)(graphics.MeasureString(lb.Text, lb.Font)).Width / 225;
+                int chheigth = rowcnt == 0 ? 1 : (rowcnt > 3) ? 3 : rowcnt + 1;
+                lb.Size = new Size(225, 15 * chheigth);
+                lb.Location = new Point(18, heigth);
+                chbox.Size = new Size(16, 15 * chheigth);
+                chbox.Location = new Point(2, heigth);
+                heigth += chbox.Size.Height;
+                if (task.State == "1")
+                {
+                    chbox.Checked = true;
                 }
+                lb.DoubleClick += chbox_DoubleClick;
+                chbox.CheckedChanged += chbox_CheckedChanged;
+                lb.ContextMenuStrip = cmenus_task_list;
+                task_list.Add(chbox);
+                task_list.Add(lb);
                 i++;
             }
-
+            panel1.Controls.AddRange(task_list.ToArray());
         }
+
+        private void chbox_CheckedChanged(object sender, EventArgs e)
+        {
+            string id = ((CheckBox)sender).Name.Replace("chbox_", "");
+            bool check = ((CheckBox) sender).Checked;
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load("config/tomato_list.xml");
+            var selectSingleNode = doc.SelectSingleNode("/list/task[id=" + id + "]");
+            if (selectSingleNode != null)
+            {
+                var singleNode = selectSingleNode.SelectSingleNode("state");
+                if (singleNode != null)
+                    singleNode.InnerText = (check ? "1" : "0");
+            }
+            doc.Save("config/tomato_list.xml");
+        }
+
+        private void chbox_DoubleClick(object sender, EventArgs e)
+        {
+            if (_tomatoListDetail != null && !_tomatoListDetail.IsDisposed)
+            {
+                _tomatoListDetail.Close();
+                _tomatoListDetail.Dispose();
+            }
+            Label lb = (Label)sender;
+            string id = lb.Name.Replace("label_", "");
+            _tomatoListDetail = new Tomato_listDetail(this,id);
+
+            _tomatoListDetail.Show();
+        }
+
+
         private ArrayList GetXmlConfigList(string filename,string xpath)
         {
             XmlDocument doc = new XmlDocument();
@@ -334,11 +401,24 @@ namespace CodeNote.tomato
             foreach (XmlNode node in nodes)
             {
                 TomatoTask task=new TomatoTask();
-                task.Id = Convert.ToInt32(node.SelectSingleNode("id").InnerText.Trim());
-                task.Title = node.SelectSingleNode("title").InnerText.Trim();
-                task.Content = node.SelectSingleNode("content").InnerText.Trim();
-                task.Datetime = node.SelectSingleNode("datetime").InnerText.Trim();
-                task.State = node.SelectSingleNode("state").InnerText.Trim();
+                var n1 = node.SelectSingleNode("id");
+                if (n1 != null)
+                    task.Id = Convert.ToInt32(n1.InnerText.Trim());
+                var n2 = node.SelectSingleNode("title");
+                if (n2 != null)
+                    task.Title = n2.InnerText.Trim();
+                var n3 = node.SelectSingleNode("content");
+                if (n3 != null)
+                    task.Content = n3.InnerText.Trim();
+                var n4 = node.SelectSingleNode("datetime");
+                if (n4 != null)
+                    task.Datetime = n4.InnerText.Trim();
+                var n5 = node.SelectSingleNode("state");
+                if (n5 != null)
+                    task.State = n5.InnerText.Trim();
+                var n6 = node.SelectSingleNode("sublist");
+                if (n6 != null)
+                    task.Sublist = n6.InnerText.Trim();
                 list.Add(task);
             }
             list.Reverse();
@@ -348,26 +428,49 @@ namespace CodeNote.tomato
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(filename);
-            return doc.SelectSingleNode(xpath).InnerText.Trim();
+            var selectSingleNode = doc.SelectSingleNode(xpath);
+            if (selectSingleNode != null) return selectSingleNode.InnerText.Trim();
+            return null;
         }
         private void SetXmlConfig(string filename, string xpath, string value)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(filename);
-            doc.SelectSingleNode(xpath).InnerText = value.Trim();
-            doc.Save(filename);
+            var n1 = doc.SelectSingleNode(xpath);
+            if (n1 != null) n1.InnerText = value.Trim();
+                doc.Save(filename);
         }
         private void DelXmlConfig(string filename, string parent_xpath,string childnodename,string value)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(filename);
             XmlNodeList nodes = doc.SelectNodes(parent_xpath);
-            foreach (XmlNode node in nodes)
-            {
-                if (node.SelectSingleNode(childnodename).InnerText.Trim()==value)
+            if (nodes != null)
+                foreach (XmlNode node in nodes)
                 {
-                    node.ParentNode.RemoveChild(node);
-                    break;
+                    var selectSingleNode = node.SelectSingleNode(childnodename);
+                    if (selectSingleNode != null && selectSingleNode.InnerText.Trim()==value)
+                    {
+                        if (node.ParentNode != null) node.ParentNode.RemoveChild(node);
+                        break;
+                    }
+                }
+            doc.Save(filename);
+        }
+        private void MoveXmlConfig(string filename, string xpath,string upordown)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(filename);
+            var n1 = doc.SelectSingleNode(xpath);
+            if (n1 != null)
+            {
+                if (upordown == "down")
+                {
+                    if (n1.ParentNode != null) n1.ParentNode.InsertBefore(n1, n1.PreviousSibling);
+                }
+                else if(upordown=="up")
+                {
+                    if (n1.ParentNode != null) n1.ParentNode.InsertAfter(n1, n1.NextSibling);
                 }
             }
             doc.Save(filename);
@@ -396,14 +499,27 @@ namespace CodeNote.tomato
          */ 
         private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TomatoTask selectedTask=(TomatoTask)task_list.SelectedValue;
-            int id=selectedTask.Id;
+            string id=((ContextMenuStrip)((ToolStripMenuItem)sender).GetCurrentParent()).SourceControl.Name.Replace("label_","");
             
-            DelXmlConfig("config/tomato_list.xml", "/list/task","id",Convert.ToString(id));
-            _tasklist.Remove(task_list.SelectedValue);
-            task_list.DataSource = null;
-            task_list.DataSource = _tasklist;
+            DelXmlConfig("config/tomato_list.xml", "/list/task","id",id);
+            ReloadList();
         }
+        private void 上移ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string id = ((ContextMenuStrip)((ToolStripMenuItem)sender).GetCurrentParent()).SourceControl.Name.Replace("label_", "");
+
+            MoveXmlConfig("config/tomato_list.xml", "/list/task[id=" + id + "]", "up");
+            ReloadList();
+        }
+
+        private void 下移ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string id = ((ContextMenuStrip)((ToolStripMenuItem)sender).GetCurrentParent()).SourceControl.Name.Replace("label_", "");
+
+            MoveXmlConfig("config/tomato_list.xml", "/list/task[id=" + id + "]", "down");
+            ReloadList();
+        }
+
 
         /**
          * 单击通知栏图标
@@ -411,22 +527,22 @@ namespace CodeNote.tomato
         private void CodeNoteTomato_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left) { 
-                if (this.Visible)
+                if (Visible)
                 {
-                    this.Hide();
+                    Hide();
                 }
                 else
                 {
-                    this.Show();
-                    this.Activate();
+                    Show();
+                    Activate();
                 }
             }
         }
 
         private void 打开ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Show();
-            this.Activate();
+            Show();
+            Activate();
         }
 
         private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -440,16 +556,16 @@ namespace CodeNote.tomato
 
         private void Tomato_work_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.Hide();
+            Hide();
             e.Cancel = true;
         }
 
         private void Tomato_work_Resize(object sender, EventArgs e)
         {
-            if (this.WindowState == FormWindowState.Minimized)
+            if (WindowState == FormWindowState.Minimized)
             {
-                this.WindowState = FormWindowState.Normal;
-                this.Hide();
+                WindowState = FormWindowState.Normal;
+                Hide();
             }
         }
 
@@ -476,7 +592,7 @@ namespace CodeNote.tomato
         {
                 _isTop = !_isTop;
                 置顶ToolStripMenuItem.Text = _isTop ? "取消置顶" : "置顶";
-                this.TopMost = _isTop;
+                TopMost = _isTop;
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
@@ -536,6 +652,8 @@ namespace CodeNote.tomato
             get { return now_state_lb.Text; }
             set { now_state_lb.Text = value; }
         }
+
+        
 
     }
 }

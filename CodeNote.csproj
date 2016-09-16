@@ -116,6 +116,12 @@
     <Compile Include="tomato\Tomato_list.Designer.cs">
       <DependentUpon>Tomato_list.cs</DependentUpon>
     </Compile>
+    <Compile Include="tomato\Tomato_listDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="tomato\Tomato_listDetail.Designer.cs">
+      <DependentUpon>Tomato_listDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="tomato\Tomato_miniWnd.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="tomato\Tomato_list.resx">
       <DependentUpon>Tomato_list.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="tomato\Tomato_listDetail.resx">
+      <DependentUpon>Tomato_listDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="tomato\Tomato_miniWnd.resx">
       <DependentUpon>Tomato_miniWnd.cs</DependentUpon>
