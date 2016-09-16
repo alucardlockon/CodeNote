@@ -10,12 +10,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CodeNote.tomato;
 
 namespace CodeNote
 {
     public partial class Main : Form
     {
-        private static Tomato_work tw; 
+        private static TomatoWork tw; 
 
         public Main()
         {
@@ -52,7 +53,7 @@ namespace CodeNote
         {
             if (tw == null || tw.IsDisposed)
             {
-                tw = new Tomato_work();
+                tw = new TomatoWork();
                 tw.Show();
             }
             else if(tw!=null&&tw.Visible==false)

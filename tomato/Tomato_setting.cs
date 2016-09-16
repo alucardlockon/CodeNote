@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace CodeNote
+namespace CodeNote.tomato
 {
     public partial class Tomato_setting : Form
     {
 
-        Tomato_work tomato_work;
-        public Tomato_setting(Tomato_work tomato_work)
+        TomatoWork tomato_work;
+        public Tomato_setting(TomatoWork tomato_work)
         {
             InitializeComponent();
             this.tomato_work = tomato_work;

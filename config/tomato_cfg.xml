@@ -27,4 +27,7 @@
   <miniwnd_opacity>
     0.5
   </miniwnd_opacity>
+  <show_detail_list>
+    false
+  </show_detail_list>  
 </config>

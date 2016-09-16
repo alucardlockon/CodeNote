@@ -1,4 +1,4 @@
-﻿namespace CodeNote
+﻿namespace CodeNote.tomato
 {
     partial class Tomato_setting
     {
@@ -249,7 +249,7 @@
             this.Controls.Add(this.tomato_tm);
             this.Controls.Add(this.label1);
             this.Name = "Tomato_setting";
-            this.Text = "设置";
+            this.Text = "首选项";
             this.Load += new System.EventHandler(this.Tomato_setting_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
