@@ -28,6 +28,7 @@ namespace CodeNote.tomato
             txt_content.Text = _NowTask.Content;
             //处理子列表
             ch_showList.Checked = _tomatoWork.CfgShowDetailList;
+            _NowTask.Sublist=string.IsNullOrEmpty(_NowTask.Sublist)?"":_NowTask.Sublist;
             txt_sublist.Text = _NowTask.Sublist;
             ReloadSubList();
             
@@ -44,8 +45,11 @@ namespace CodeNote.tomato
             task.Title = txt_title.Text;
             task.Content = txt_content.Text;
             task.State = _NowTask.State;
+
+            _NowTask.Sublist=txt_sublist.Text ;
             ReloadSubList(!ch_showList.Checked);
-            //task.Sublist = _NowTask.Sublist;
+            ReloadSubList(ch_showList.Checked);
+            task.Sublist = _NowTask.Sublist;
             SetTaskList("config/tomato_list.xml", "/list/task[id=" + _NowTask.Id + "]",task);
             _tomatoWork.ReloadList();
             
