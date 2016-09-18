@@ -6,6 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.mp3
 
 # Build results
 [Dd]ebug/

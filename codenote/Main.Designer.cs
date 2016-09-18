@@ -52,6 +52,7 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.fileList = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.白噪音ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.cmenus_notifybar.SuspendLayout();
             this.SuspendLayout();
@@ -140,7 +141,8 @@
             // 番茄工作ToolStripMenuItem
             // 
             this.番茄工作ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.打开番茄工作面板CtrlShiftTToolStripMenuItem});
+            this.打开番茄工作面板CtrlShiftTToolStripMenuItem,
+            this.白噪音ToolStripMenuItem});
             this.番茄工作ToolStripMenuItem.Name = "番茄工作ToolStripMenuItem";
             this.番茄工作ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.番茄工作ToolStripMenuItem.Text = "工具";
@@ -235,6 +237,13 @@
             this.imageList1.Images.SetKeyName(0, "file");
             this.imageList1.Images.SetKeyName(1, "folder");
             // 
+            // 白噪音ToolStripMenuItem
+            // 
+            this.白噪音ToolStripMenuItem.Name = "白噪音ToolStripMenuItem";
+            this.白噪音ToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.白噪音ToolStripMenuItem.Text = "白噪音工具";
+            this.白噪音ToolStripMenuItem.Click += new System.EventHandler(this.白噪音ToolStripMenuItem_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -283,6 +292,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.TreeView fileList;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ToolStripMenuItem 白噪音ToolStripMenuItem;
     }
 }
 
