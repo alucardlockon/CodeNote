@@ -34,11 +34,11 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.开始ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.关闭ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.task = new System.Windows.Forms.Label();
+            this.完成任务ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.上一个任务ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.下一个任务ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.完成任务ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.关闭ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.task = new System.Windows.Forms.Label();
             this.nowProgress = new System.Windows.Forms.ProgressBar();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -86,45 +86,48 @@
             // 开始ToolStripMenuItem
             // 
             this.开始ToolStripMenuItem.Name = "开始ToolStripMenuItem";
-            this.开始ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.开始ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.开始ToolStripMenuItem.Text = "开始";
             this.开始ToolStripMenuItem.Click += new System.EventHandler(this.开始ToolStripMenuItem_Click);
+            // 
+            // 完成任务ToolStripMenuItem
+            // 
+            this.完成任务ToolStripMenuItem.Name = "完成任务ToolStripMenuItem";
+            this.完成任务ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.完成任务ToolStripMenuItem.Text = "完成此任务";
+            this.完成任务ToolStripMenuItem.Click += new System.EventHandler(this.完成任务ToolStripMenuItem_Click);
+            // 
+            // 上一个任务ToolStripMenuItem
+            // 
+            this.上一个任务ToolStripMenuItem.Name = "上一个任务ToolStripMenuItem";
+            this.上一个任务ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.上一个任务ToolStripMenuItem.Text = "上一个任务";
+            this.上一个任务ToolStripMenuItem.Click += new System.EventHandler(this.上一个任务ToolStripMenuItem_Click);
+            // 
+            // 下一个任务ToolStripMenuItem
+            // 
+            this.下一个任务ToolStripMenuItem.Name = "下一个任务ToolStripMenuItem";
+            this.下一个任务ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.下一个任务ToolStripMenuItem.Text = "下一个任务";
+            this.下一个任务ToolStripMenuItem.Click += new System.EventHandler(this.下一个任务ToolStripMenuItem_Click);
             // 
             // 关闭ToolStripMenuItem
             // 
             this.关闭ToolStripMenuItem.Name = "关闭ToolStripMenuItem";
-            this.关闭ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.关闭ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.关闭ToolStripMenuItem.Text = "关闭";
             this.关闭ToolStripMenuItem.Click += new System.EventHandler(this.关闭ToolStripMenuItem_Click);
             // 
             // task
             // 
             this.task.AutoSize = true;
-            this.task.Font = new System.Drawing.Font("Consolas", 10F);
+            this.task.Font = new System.Drawing.Font("Consolas", 7F);
             this.task.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.task.Location = new System.Drawing.Point(1, 17);
+            this.task.Location = new System.Drawing.Point(1, 19);
             this.task.Name = "task";
-            this.task.Size = new System.Drawing.Size(40, 17);
+            this.task.Size = new System.Drawing.Size(25, 12);
             this.task.TabIndex = 8;
             this.task.Text = "任务";
-            // 
-            // 上一个任务ToolStripMenuItem
-            // 
-            this.上一个任务ToolStripMenuItem.Name = "上一个任务ToolStripMenuItem";
-            this.上一个任务ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-            this.上一个任务ToolStripMenuItem.Text = "上一个任务";
-            // 
-            // 下一个任务ToolStripMenuItem
-            // 
-            this.下一个任务ToolStripMenuItem.Name = "下一个任务ToolStripMenuItem";
-            this.下一个任务ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-            this.下一个任务ToolStripMenuItem.Text = "下一个任务";
-            // 
-            // 完成任务ToolStripMenuItem
-            // 
-            this.完成任务ToolStripMenuItem.Name = "完成任务ToolStripMenuItem";
-            this.完成任务ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-            this.完成任务ToolStripMenuItem.Text = "完成此任务";
             // 
             // nowProgress
             // 

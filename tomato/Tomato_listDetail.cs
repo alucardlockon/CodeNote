@@ -22,14 +22,13 @@ namespace CodeNote.tomato
             _NowTask = GetTaskList("config/tomato_list.xml", "/list/task[id=" + id + "]");
             base.Text = _NowTask.Title;
             this._tomatoWork = tomatoWork;
-
             txt_datetime.Text = _NowTask.Datetime;
             txt_title.Text=_NowTask.Title;
             txt_content.Text = _NowTask.Content;
             //处理子列表
-            ch_showList.Checked = _tomatoWork.CfgShowDetailList;
             _NowTask.Sublist=string.IsNullOrEmpty(_NowTask.Sublist)?"":_NowTask.Sublist;
             txt_sublist.Text = _NowTask.Sublist;
+            ch_showList.Checked = _tomatoWork.CfgShowDetailList;
             ReloadSubList();
             
         }
@@ -47,11 +46,37 @@ namespace CodeNote.tomato
             task.State = _NowTask.State;
 
             _NowTask.Sublist=txt_sublist.Text ;
-            ReloadSubList(!ch_showList.Checked);
-            ReloadSubList(ch_showList.Checked);
+            string subliststring = "";
+            if (_NowTask.Sublist.Split("\r\n".ToCharArray()).Length > 0)
+            {
+                foreach (string a in _NowTask.Sublist.Split("\r\n".ToCharArray()))
+                {
+                    if (a.Length > 0)
+                    {
+                        if (!a.StartsWith("(o)") && !a.StartsWith("(x)"))
+                        {
+                            subliststring += "(x)" + a + "\r\n";
+                        }
+                        else
+                        {
+                            subliststring += a + "\r\n";
+                        }
+                    }
+                }
+            }
+            if (ch_showList.Checked)
+            {
+                txt_sublist.Text = subliststring;
+                _NowTask.Sublist = subliststring;
+            }
+            else
+            {
+                _NowTask.Sublist = subliststring;
+            }
+
             task.Sublist = _NowTask.Sublist;
             SetTaskList("config/tomato_list.xml", "/list/task[id=" + _NowTask.Id + "]",task);
-            _tomatoWork.ReloadList();
+            _tomatoWork.ReloadList(false);
             
             this.Close();
             this.Dispose();
