@@ -1,23 +1,17 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace CodeNote
+namespace CodeNote.tomato
 {
-    public partial class Tomato_list : Form
+    public partial class TomatoList : Form
     {
-        Tomato_work tomato_work;
-        public Tomato_list(Tomato_work tomato_work)
+        TomatoWork _tomatoWork;
+        public TomatoList(TomatoWork tomatoWork)
         {
             InitializeComponent();
-            this.tomato_work = tomato_work;
+            this._tomatoWork = tomatoWork;
         }
 
         private void Tomato_list_Load(object sender, EventArgs e)

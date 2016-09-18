@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CodeNote.tomato;
 
 namespace CodeNote
 {
@@ -17,7 +18,7 @@ namespace CodeNote
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Main());
-            Application.Run(new Tomato_work());
+            Application.Run(new TomatoWork());
         }
 
 

@@ -1,62 +1,58 @@
-﻿using CodeNote.domain.tomato;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using CodeNote.domain.tomato;
 
-namespace CodeNote
+namespace CodeNote.tomato
 {
-    public partial class Tomato_work : Form
+    public partial class TomatoWork : Form
     {
         //窗体
-        private static Tomato_setting tomato_setting;
-        private static Tomato_list tomato_list;
-        private static Tomato_fq tomato_fq;
-        private static Tomato_miniWnd tomato_miniWnd;
+        private static Tomato_setting _tomatoSetting;
+        private static TomatoList _tomatoList;
+        private static TomatoFq _tomatoFq;
+        private static Tomato_miniWnd _tomatoMiniWnd;
+        private static Tomato_listDetail _tomatoListDetail;
         //运行时变量
-        private string time_state = "init";
-        private string last_state = "init";
-        private DateTime time = new DateTime();
-        private DateTime timenow = new DateTime();
-        private TimeSpan tmspan=new TimeSpan();
-        private int tomato_now_cylce = 1;
-        private int tomato_count = 0;
+        public string TimeState = "init";
+        private string _lastState = "init";
+        private DateTime _time;
+        private DateTime _timenow;
+        private TimeSpan _tmspan;
+        private int _tomatoNowCylce = 1;
+        private int _tomatoCount;
         //cfg参数
-        private int cfg_tomato_tm = 1500;
-        private int cfg_break_tm = 300;
-        private int cfg_long_break_tm = 900;
-        private int cfg_tomato_cylce = 4;
-        public Color cfg_countdown_color = Color.Red;
-        private double cfg_countdown_percent = 0.05d;
+        private int _cfgTomatoTm = 1500;
+        private int _cfgBreakTm = 300;
+        private int _cfgLongBreakTm = 900;
+        private int _cfgTomatoCylce = 4;
+        public Color CfgCountdownColor = Color.Red;
+        private double _cfgCountdownPercent = 0.05d;
+        public bool CfgShowDetailList = false;
         //悬浮窗参数
-        public Color cfg_miniwnd_color = Color.DarkSlateBlue;
-        public Color cfg_miniwnd_fontcolor = Color.White;
-        public double cfg_miniwnd_opacity = 0.5d;
-        public bool colorChange = false;
+        public Color CfgMiniwndColor = Color.DarkSlateBlue;
+        public Color CfgMiniwndFontcolor = Color.White;
+        public double CfgMiniwndOpacity = 0.5d;
+        public bool ColorChange;
         //list参数
-        private ArrayList tasklist = new ArrayList(); //tomato_task
+        public ArrayList Tasklist = new ArrayList(); //tomato_task
         //是否置顶标志
-        private static bool isTop=false;
+        private static bool _isTop;
 
-        public Tomato_work()
+        public TomatoWork()
         {
             InitializeComponent();
         }
 
         private void Tomato_work_Load(object sender, EventArgs e)
         {
-            this.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - this.Width - 100, Screen.PrimaryScreen.WorkingArea.Height/2-this.Width/2-100);
-            time_label.Text = "00:00";
+            Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - Width - 100, Screen.PrimaryScreen.WorkingArea.Height/2-Width/2-100);
+            time_label.Text = @"00:00";
             Init();
+            
         }
 
         /**
@@ -65,36 +61,39 @@ namespace CodeNote
          */
         private void timer1_Tick(object sender, EventArgs e)
         {
-            timenow = DateTime.Now;
-            if (time_state == "running_tm")
+            _timenow = DateTime.Now;
+            if (TimeState == "running_tm")
             {
-                tmspan = time - timenow;
-                if(tmspan.Ticks>0){
-                    time_label.Text = tmspan.Minutes + ":" + tmspan.Seconds;
-                    if (tmspan.TotalSeconds <= cfg_tomato_tm *cfg_countdown_percent && time_label.ForeColor != cfg_countdown_color)
+                _tmspan = _time - _timenow;
+                if(_tmspan.Ticks>0){
+                    time_label.Text = _tmspan.Minutes + ":" + _tmspan.Seconds;
+                    if (_tmspan.TotalSeconds <= _cfgTomatoTm *_cfgCountdownPercent && time_label.ForeColor != CfgCountdownColor)
                     {
-                        time_label.ForeColor = cfg_countdown_color;
-                        colorChange = true;
+                        time_label.ForeColor = CfgCountdownColor;
+                        ColorChange = true;
                     }
-                    else if (tmspan.TotalSeconds > cfg_tomato_tm * cfg_countdown_percent && time_label.ForeColor == cfg_countdown_color)
+                    else if (_tmspan.TotalSeconds > _cfgTomatoTm * _cfgCountdownPercent && time_label.ForeColor == CfgCountdownColor)
                     {
                         time_label.ForeColor = Color.Black;
-                        colorChange = false;
+                        ColorChange = false;
                     }
+                    nowProgress.Minimum = 0;
+                    nowProgress.Maximum = _cfgTomatoTm;
+                    nowProgress.Value = _cfgTomatoTm - (int)_tmspan.TotalSeconds;
                 }else {
-                    timenow = DateTime.Now;
-                    if (tomato_now_cylce < cfg_tomato_cylce)
+                    _timenow = DateTime.Now;
+                    if (_tomatoNowCylce < _cfgTomatoCylce)
                     {
-                        time = DateTime.Now.AddSeconds(cfg_break_tm);
-                        now_state_lb.Text = "休息时间";
+                        _time = DateTime.Now.AddSeconds(_cfgBreakTm);
+                        now_state_lb.Text = @"休息时间";
                     }
                     else
                     {
-                        time = DateTime.Now.AddSeconds(cfg_long_break_tm);
-                        now_state_lb.Text = "长休息时间";
+                        _time = DateTime.Now.AddSeconds(_cfgLongBreakTm);
+                        now_state_lb.Text = @"长休息时间";
                     }
                     //完成一个番茄工作，增加番茄数
-                    tomato_count++;
+                    _tomatoCount++;
                     if (GetXmlConfig("config/tomato_user.xml", "/user/tomato_today_date") != DateTime.Now.ToString("yyyy-MM-dd"))
                     {
                         SetXmlConfig("config/tomato_user.xml", "/user/tomato_today", "0");
@@ -103,109 +102,117 @@ namespace CodeNote
                     SetXmlConfig("config/tomato_user.xml", "/user/tomato_today", Convert.ToString(Convert.ToInt32(GetXmlConfig("config/tomato_user.xml", "/user/tomato_today")) + 1));
                     SetXmlConfig("config/tomato_user.xml", "/user/tomato_count", Convert.ToString(Convert.ToInt32(GetXmlConfig("config/tomato_user.xml", "/user/tomato_count")) + 1));
                     AddTomatoToXml();
-                    total_tomato_cnt_lb.Text = "番茄数:" + tomato_count;
-                    today_tomato_cnt_lb.Text = "今日:" + GetXmlConfig("config/tomato_user.xml", "/user/tomato_today");
-                    time_state = "running_break";
-                    CodeNoteTomato.ShowBalloonTip(100, "CodeNode", "工作时间结束，休息时间开始!!循环:" + tomato_now_cylce + "/" + cfg_tomato_cylce, ToolTipIcon.Info);
+                    total_tomato_cnt_lb.Text = @"番茄数:" + _tomatoCount;
+                    today_tomato_cnt_lb.Text = @"今日:" + GetXmlConfig("config/tomato_user.xml", "/user/tomato_today");
+                    TimeState = "running_break";
+                    CodeNoteTomato.ShowBalloonTip(100, "CodeNode", "工作时间结束，休息时间开始!!循环:" + _tomatoNowCylce + "/" + _cfgTomatoCylce, ToolTipIcon.Info);
                 }
             }
-            else if (time_state == "running_break")
+            else if (TimeState == "running_break")
             {
-                tmspan = time - timenow;
-                if (tmspan.Ticks > 0)
+                _tmspan = _time - _timenow;
+                if (_tmspan.Ticks > 0)
                 {
-                    time_label.Text = tmspan.Minutes + ":" + tmspan.Seconds;
+                    time_label.Text = _tmspan.Minutes + ":" + _tmspan.Seconds;
                     int break_tm = 0;
-                    if (now_state_lb.Text == "长休息时间")
+                    if (now_state_lb.Text == @"长休息时间")
                     {
-                        break_tm = cfg_long_break_tm;
+                        break_tm = _cfgLongBreakTm;
                     }
                     else
                     {
-                        break_tm = cfg_break_tm;
+                        break_tm = _cfgBreakTm;
                     }
-                    if (tmspan.TotalSeconds <= break_tm * cfg_countdown_percent && time_label.ForeColor != cfg_countdown_color)
+                    nowProgress.Minimum = 0;
+                    nowProgress.Maximum = break_tm;
+                    nowProgress.Value = break_tm - (int)_tmspan.TotalSeconds;
+                    if (_tmspan.TotalSeconds <= break_tm * _cfgCountdownPercent && time_label.ForeColor != CfgCountdownColor)
                     {
-                        time_label.ForeColor = cfg_countdown_color;
-                        colorChange = true;
+                        time_label.ForeColor = CfgCountdownColor;
+                        ColorChange = true;
                     }
-                    else if (tmspan.TotalSeconds > break_tm * cfg_countdown_percent && time_label.ForeColor == cfg_countdown_color)
+                    else if (_tmspan.TotalSeconds > break_tm * _cfgCountdownPercent && time_label.ForeColor == CfgCountdownColor)
                     {
                         time_label.ForeColor = Color.Black;
-                        colorChange = false;
+                        ColorChange = false;
                     }
                 }
                 else
                 {
-                    if(tomato_now_cylce<cfg_tomato_cylce){
-                        tomato_now_cylce++;
+                    if(_tomatoNowCylce<_cfgTomatoCylce){
+                        _tomatoNowCylce++;
                     }else{
-                        tomato_now_cylce = 1 ;
+                        _tomatoNowCylce = 1 ;
                         SetXmlConfig("config/tomato_user.xml", "/user/total_cycle", Convert.ToString(Convert.ToInt32(GetXmlConfig("config/tomato_user.xml", "/user/total_cycle")) + 1));
-                        total_cycle_lb.Text = "总循环:" + GetXmlConfig("config/tomato_user.xml", "/user/total_cycle");
+                        total_cycle_lb.Text = @"总循环:" + GetXmlConfig("config/tomato_user.xml", "/user/total_cycle");
                     }
-                    cycle_count_lb.Text = "循环:" + tomato_now_cylce + "/" + cfg_tomato_cylce;
-                    timenow = DateTime.Now;
-                    time = DateTime.Now.AddSeconds(cfg_tomato_tm);
-                    time_state = "running_tm";
-                    now_state_lb.Text = "工作时间";
-                    CodeNoteTomato.ShowBalloonTip(100, "CodeNode", "休息时间结束，工作时间开始!!循环:" + tomato_now_cylce + "/" + cfg_tomato_cylce, ToolTipIcon.Info);
+                    cycle_count_lb.Text = @"循环:" + _tomatoNowCylce + "/" + _cfgTomatoCylce;
+                    _timenow = DateTime.Now;
+                    _time = DateTime.Now.AddSeconds(_cfgTomatoTm);
+                    TimeState = "running_tm";
+                    now_state_lb.Text = @"工作时间";
+                    CodeNoteTomato.ShowBalloonTip(100, "CodeNode", "休息时间结束，工作时间开始!!循环:" + _tomatoNowCylce + "/" + _cfgTomatoCylce, ToolTipIcon.Info);
                 }
             }
+            
         }
         /*
          * 开始 
          */
         private void toolStripLabel1_Click(object sender, EventArgs e)
         {
-            startBtn();
+            if (TimeState == "pause" || TimeState == "init")
+            {
+                StartBtn();
+                toolStripLabel1.Text = @"暂停";
+                if(_tomatoMiniWnd!=null&&!_tomatoMiniWnd.IsDisposed)
+                    _tomatoMiniWnd.开始ToolStripMenuItem.Text = @"暂停";
+            }else{
+                StopBtn();
+                toolStripLabel1.Text = @"开始";
+                if (_tomatoMiniWnd != null && !_tomatoMiniWnd.IsDisposed)
+                    _tomatoMiniWnd.开始ToolStripMenuItem.Text = @"开始";
+            }
         }
 
-        public void startBtn()
+        public void StartBtn()
         {
-            if (time_state == "pause")
+            if (TimeState == "pause")
             {
-                timenow = DateTime.Now;
-                time = DateTime.Now.AddSeconds(tmspan.TotalSeconds);
-                if (last_state == "running_tm") { 
-                    time_state = "running_tm";
-                    now_state_lb.Text = "工作时间";
+                _timenow = DateTime.Now;
+                _time = DateTime.Now.AddSeconds(_tmspan.TotalSeconds);
+                if (_lastState == "running_tm")
+                { 
+                    TimeState = "running_tm";
+                    now_state_lb.Text = @"工作时间";
                 }
-                else if (last_state == "running_break")
+                else if (_lastState == "running_break")
                 {
-                    time_state = "running_break";
-                    now_state_lb.Text = "休息时间";
+                    TimeState = "running_break";
+                    now_state_lb.Text = @"休息时间";
                 }
-                else if (last_state == "running_break" && tomato_now_cylce == cfg_tomato_cylce)
+                else if (_lastState == "running_break" && _tomatoNowCylce == _cfgTomatoCylce)
                 {
-                    time_state = "running_break";
-                    now_state_lb.Text = "长休息时间";
+                    TimeState = "running_break";
+                    now_state_lb.Text = @"长休息时间";
                 }
             }
-            else if (time_state == "init")
+            else if (TimeState == "init")
             {
-                timenow = DateTime.Now;
-                time = DateTime.Now.AddSeconds(cfg_tomato_tm);
-                time_state = "running_tm";
-                now_state_lb.Text = "工作时间";
+                _timenow = DateTime.Now;
+                _time = DateTime.Now.AddSeconds(_cfgTomatoTm);
+                TimeState = "running_tm";
+                now_state_lb.Text = @"工作时间";
             }
             timer1.Enabled = true;
         }
 
-        /*
-         * 暂停 
-         */
-        private void toolStripLabel2_Click(object sender, EventArgs e)
-        {
-            stopBtn();
-        }
-
-        public void stopBtn()
+        public void StopBtn()
         {
             timer1.Enabled = false;
-            last_state = time_state;
-            time_state = "pause";
-            now_state_lb.Text = "暂停";
+            _lastState = TimeState;
+            TimeState = "pause";
+            now_state_lb.Text = @"暂停";
         }
 
         /*
@@ -213,10 +220,10 @@ namespace CodeNote
          */
         private void toolStripLabel3_Click(object sender, EventArgs e)
         {
-            timenow = DateTime.Now;
-            time = DateTime.Now.AddSeconds(cfg_tomato_tm);
-            time_state = "running_tm";
-            now_state_lb.Text = "工作时间";
+            _timenow = DateTime.Now;
+            _time = DateTime.Now.AddSeconds(_cfgTomatoTm);
+            TimeState = "running_tm";
+            now_state_lb.Text = @"工作时间";
             timer1.Enabled = true;
         }
         /*
@@ -224,21 +231,15 @@ namespace CodeNote
          */
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            timenow = DateTime.Now;
-            time = DateTime.Now.AddSeconds(cfg_tomato_tm);
-            time_state = "running_tm";
-            now_state_lb.Text = "工作时间";
-            tomato_now_cylce = 1;
-            cycle_count_lb.Text = "循环:" + tomato_now_cylce + "/" + cfg_tomato_cylce;
+            _timenow = DateTime.Now;
+            _time = DateTime.Now.AddSeconds(_cfgTomatoTm);
+            TimeState = "running_tm";
+            now_state_lb.Text = @"工作时间";
+            _tomatoNowCylce = 1;
+            cycle_count_lb.Text = @"循环:" + _tomatoNowCylce + @"/" + _cfgTomatoCylce;
             timer1.Enabled = true;
         }
-        /*
-         * 设置 
-         */
-        private void toolStripLabel4_Click(object sender, EventArgs e)
-        {
-            
-        }
+        
         /*
          * 新建任务按钮 
          */
@@ -247,80 +248,162 @@ namespace CodeNote
             XmlDocument doc = new XmlDocument();
             doc.Load("config/tomato_list.xml");
             XmlNode listnode=doc.SelectSingleNode("/list");
-            XmlNode lastnode = doc.SelectSingleNode("/list").LastChild;
             TomatoTask task = new TomatoTask();
-            task.Id = Convert.ToInt32(lastnode.SelectSingleNode("id").InnerText.Trim()) + 1;
+            task.Id = Convert.ToInt32(GetXmlConfig("config/tomato_list.xml","/list/maxid")) + 1;
+            
             task.Title = txt_title.Text;
             task.Content = txt_content.Text;
             task.Datetime = txt_time.Text;
             task.State = "0";
-            XmlElement node_task = doc.CreateElement("task");
-            XmlElement node_id = doc.CreateElement("id");
-            node_id.InnerText = Convert.ToString(task.Id);
-            XmlElement node_title = doc.CreateElement("title");
-            node_title.InnerText = task.Title;
-            XmlElement node_content = doc.CreateElement("content");
-            node_content.InnerText = task.Content;
-            XmlElement node_datetime = doc.CreateElement("datetime");
-            node_datetime.InnerText = task.Datetime;
-            XmlElement node_state = doc.CreateElement("state");
-            node_state.InnerText = task.State;
-            node_task.AppendChild(node_id);
-            node_task.AppendChild(node_title);
-            node_task.AppendChild(node_content);
-            node_task.AppendChild(node_datetime);
-            node_task.AppendChild(node_state);
-            listnode.AppendChild(node_task);
-            tasklist.Insert(0,task);
+            XmlElement nodeTask = doc.CreateElement("task");
+            XmlElement nodeId = doc.CreateElement("id");
+            nodeId.InnerText = Convert.ToString(task.Id);
+            XmlElement nodeTitle = doc.CreateElement("title");
+            nodeTitle.InnerText = task.Title;
+            XmlElement nodeContent = doc.CreateElement("content");
+            nodeContent.InnerText = task.Content;
+            XmlElement nodeDatetime = doc.CreateElement("datetime");
+            nodeDatetime.InnerText = task.Datetime;
+            XmlElement nodeState = doc.CreateElement("state");
+            nodeState.InnerText = task.State;
+            XmlElement nodeSublist = doc.CreateElement("sublist");
+            nodeSublist.InnerText = task.Sublist;
+            nodeTask.AppendChild(nodeId);
+            nodeTask.AppendChild(nodeTitle);
+            nodeTask.AppendChild(nodeContent);
+            nodeTask.AppendChild(nodeDatetime);
+            nodeTask.AppendChild(nodeState);
+            nodeTask.AppendChild(nodeSublist);
+            listnode.AppendChild(nodeTask);
+            Tasklist.Insert(0,task);
             doc.Save("config/tomato_list.xml");
             txt_title.Text = "";
             txt_content.Text="";
             txt_time.Text="";
-            task_list.DataSource = null;
-            task_list.DataSource = tasklist;
-            //勾选任务列表
-            int i = 0;
-            foreach (TomatoTask task2 in tasklist)
-            {
-                if (task2.State == "1")
-                {
-                    task_list.SetItemChecked(i, true);
-                }
-                i++;
-            }
+
+            SetXmlConfig("config/tomato_list.xml", "/list/maxid", task.Id.ToString());
+            ReloadList(true);
         }
         public void Init()
         {
             //初始化cfg参数
-            cfg_tomato_tm = Convert.ToInt32(GetXmlConfig("config/tomato_cfg.xml", "/config/tomato_tm"));
-            cfg_break_tm = Convert.ToInt32(GetXmlConfig("config/tomato_cfg.xml", "/config/break_tm"));
-            cfg_long_break_tm = Convert.ToInt32(GetXmlConfig("config/tomato_cfg.xml", "/config/long_break_tm"));
-            cfg_tomato_cylce = Convert.ToInt32(GetXmlConfig("config/tomato_cfg.xml", "/config/tomato_cylce"));
-            cfg_countdown_color = ColorTranslator.FromHtml(GetXmlConfig("config/tomato_cfg.xml", "/config/countdown_color"));
-            cfg_countdown_percent = Convert.ToDouble(GetXmlConfig("config/tomato_cfg.xml", "/config/countdown_percent"));
-            cfg_miniwnd_color = ColorTranslator.FromHtml(GetXmlConfig("config/tomato_cfg.xml", "/config/miniwnd_color"));
-            cfg_miniwnd_fontcolor = ColorTranslator.FromHtml(GetXmlConfig("config/tomato_cfg.xml", "/config/miniwnd_fontcolor"));
-            cfg_miniwnd_opacity = Convert.ToDouble(GetXmlConfig("config/tomato_cfg.xml", "/config/miniwnd_opacity"));
+            _cfgTomatoTm = Convert.ToInt32(GetXmlConfig("config/tomato_cfg.xml", "/config/tomato_tm"));
+            _cfgBreakTm = Convert.ToInt32(GetXmlConfig("config/tomato_cfg.xml", "/config/break_tm"));
+            _cfgLongBreakTm = Convert.ToInt32(GetXmlConfig("config/tomato_cfg.xml", "/config/long_break_tm"));
+            _cfgTomatoCylce = Convert.ToInt32(GetXmlConfig("config/tomato_cfg.xml", "/config/tomato_cylce"));
+            CfgCountdownColor = ColorTranslator.FromHtml(GetXmlConfig("config/tomato_cfg.xml", "/config/countdown_color"));
+            _cfgCountdownPercent = Convert.ToDouble(GetXmlConfig("config/tomato_cfg.xml", "/config/countdown_percent"));
+            CfgMiniwndColor = ColorTranslator.FromHtml(GetXmlConfig("config/tomato_cfg.xml", "/config/miniwnd_color"));
+            CfgMiniwndFontcolor = ColorTranslator.FromHtml(GetXmlConfig("config/tomato_cfg.xml", "/config/miniwnd_fontcolor"));
+            CfgMiniwndOpacity = Convert.ToDouble(GetXmlConfig("config/tomato_cfg.xml", "/config/miniwnd_opacity"));
+            CfgShowDetailList = Convert.ToBoolean(GetXmlConfig("config/tomato_cfg.xml", "/config/show_detail_list"));
             //初始化界面
-            cycle_count_lb.Text = "循环:" + tomato_now_cylce + "/" + cfg_tomato_cylce;
-            tomato_count = Convert.ToInt32(GetXmlConfig("config/tomato_user.xml", "/user/tomato_count"));
-            today_tomato_cnt_lb.Text = "今日:" + GetXmlConfig("config/tomato_user.xml", "/user/tomato_today");
-            total_tomato_cnt_lb.Text = "番茄数:" + tomato_count;
-            total_cycle_lb.Text = "总循环:" + GetXmlConfig("config/tomato_user.xml", "/user/total_cycle");
-            //初始化任务列表
-            tasklist = GetXmlConfigList("config/tomato_list.xml", "/list/task");
-            task_list.DataSource = tasklist;
-            //勾选任务列表
-            int i=0;
-            foreach (TomatoTask task in tasklist)
+            cycle_count_lb.Text = @"循环:" + _tomatoNowCylce + @"/" + _cfgTomatoCylce;
+            _tomatoCount = Convert.ToInt32(GetXmlConfig("config/tomato_user.xml", "/user/tomato_count"));
+            if (GetXmlConfig("config/tomato_user.xml", "/user/tomato_today_date") != DateTime.Now.ToString("yyyy-MM-dd"))
             {
-                if(task.State=="1"){
-                    task_list.SetItemChecked(i,true);
+                today_tomato_cnt_lb.Text = @"今日:0";
+            }
+            else { 
+                today_tomato_cnt_lb.Text = @"今日:" + GetXmlConfig("config/tomato_user.xml", "/user/tomato_today");
+            }
+            total_tomato_cnt_lb.Text = @"番茄数:" + _tomatoCount;
+            total_cycle_lb.Text = @"总循环:" + GetXmlConfig("config/tomato_user.xml", "/user/total_cycle");
+
+            ReloadList(false);
+        }
+
+        public void ReloadList(bool reloadFlag)
+        {
+            panel1.Controls.Clear();
+            
+            //初始化任务列表
+            if (Tasklist == null || Tasklist.Count == 0 || reloadFlag)
+            {
+                Tasklist = GetXmlConfigList("config/tomato_list.xml", "/list/task");
+            }
+
+            var task_list = new List<Control>();
+            //勾选任务列表
+            Graphics graphics = CreateGraphics();
+            int i = 0;
+            int heigth = 0;
+            foreach (TomatoTask task in Tasklist)
+            {
+                CheckBox chbox = new CheckBox();
+                Label lb = new Label();
+                chbox.Text = "";
+                string content = "";
+                if (!string.IsNullOrEmpty(task.Datetime)) content += "[" + task.Datetime + "]";
+                if (!string.IsNullOrEmpty(task.Title)) content += "(" + task.Title + ")";
+                if (!string.IsNullOrEmpty(task.Content)) content += ":" + task.Content;
+                lb.Text = content;
+                lb.Name = "label_" + task.Id;
+                chbox.Name = "chbox_" + task.Id;
+                chbox.AutoSize = false;
+                lb.AutoSize = false;
+                chbox.CheckAlign = ContentAlignment.TopLeft;
+                lb.TextAlign = ContentAlignment.TopLeft;
+                int rowcnt = (int)(graphics.MeasureString(lb.Text, lb.Font)).Width / 225;
+                int chheigth = rowcnt == 0 ? 1 : (rowcnt > 3) ? 3 : rowcnt + 1;
+                lb.Size = new Size(225, 15 * chheigth);
+                lb.Location = new Point(18, heigth);
+                chbox.Size = new Size(16, 15 * chheigth);
+                chbox.Location = new Point(2, heigth);
+                heigth += chbox.Size.Height;
+                if (task.State == "1")
+                {
+                    chbox.Checked = true;
                 }
+                lb.DoubleClick += chbox_DoubleClick;
+                chbox.CheckedChanged += chbox_CheckedChanged;
+                lb.ContextMenuStrip = cmenus_task_list;
+                task_list.Add(chbox);
+                task_list.Add(lb);
                 i++;
+            }
+            panel1.Controls.AddRange(task_list.ToArray());
+
+            //刷新悬浮窗任务
+            if (_tomatoMiniWnd!=null&&_tomatoMiniWnd.Visible == true)
+            {
+                _tomatoMiniWnd.ReloadTask();
             }
 
         }
+
+        private void chbox_CheckedChanged(object sender, EventArgs e)
+        {
+            string id = ((CheckBox)sender).Name.Replace("chbox_", "");
+            bool check = ((CheckBox) sender).Checked;
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load("config/tomato_list.xml");
+            var selectSingleNode = doc.SelectSingleNode("/list/task[id=" + id + "]");
+            if (selectSingleNode != null)
+            {
+                var singleNode = selectSingleNode.SelectSingleNode("state");
+                if (singleNode != null)
+                    singleNode.InnerText = (check ? "1" : "0");
+            }
+            doc.Save("config/tomato_list.xml");
+        }
+
+        private void chbox_DoubleClick(object sender, EventArgs e)
+        {
+            if (_tomatoListDetail != null && !_tomatoListDetail.IsDisposed)
+            {
+                _tomatoListDetail.Close();
+                _tomatoListDetail.Dispose();
+            }
+            Label lb = (Label)sender;
+            string id = lb.Name.Replace("label_", "");
+            _tomatoListDetail = new Tomato_listDetail(this,id);
+
+            _tomatoListDetail.Show();
+        }
+
+
         private ArrayList GetXmlConfigList(string filename,string xpath)
         {
             XmlDocument doc = new XmlDocument();
@@ -330,11 +413,24 @@ namespace CodeNote
             foreach (XmlNode node in nodes)
             {
                 TomatoTask task=new TomatoTask();
-                task.Id = Convert.ToInt32(node.SelectSingleNode("id").InnerText.Trim());
-                task.Title = node.SelectSingleNode("title").InnerText.Trim();
-                task.Content = node.SelectSingleNode("content").InnerText.Trim();
-                task.Datetime = node.SelectSingleNode("datetime").InnerText.Trim();
-                task.State = node.SelectSingleNode("state").InnerText.Trim();
+                var n1 = node.SelectSingleNode("id");
+                if (n1 != null)
+                    task.Id = Convert.ToInt32(n1.InnerText.Trim());
+                var n2 = node.SelectSingleNode("title");
+                if (n2 != null)
+                    task.Title = n2.InnerText.Trim();
+                var n3 = node.SelectSingleNode("content");
+                if (n3 != null)
+                    task.Content = n3.InnerText.Trim();
+                var n4 = node.SelectSingleNode("datetime");
+                if (n4 != null)
+                    task.Datetime = n4.InnerText.Trim();
+                var n5 = node.SelectSingleNode("state");
+                if (n5 != null)
+                    task.State = n5.InnerText.Trim();
+                var n6 = node.SelectSingleNode("sublist");
+                if (n6 != null)
+                    task.Sublist = n6.InnerText.Trim();
                 list.Add(task);
             }
             list.Reverse();
@@ -344,26 +440,49 @@ namespace CodeNote
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(filename);
-            return doc.SelectSingleNode(xpath).InnerText.Trim();
+            var selectSingleNode = doc.SelectSingleNode(xpath);
+            if (selectSingleNode != null) return selectSingleNode.InnerText.Trim();
+            return null;
         }
         private void SetXmlConfig(string filename, string xpath, string value)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(filename);
-            doc.SelectSingleNode(xpath).InnerText = value.Trim();
-            doc.Save(filename);
+            var n1 = doc.SelectSingleNode(xpath);
+            if (n1 != null) n1.InnerText = value.Trim();
+                doc.Save(filename);
         }
         private void DelXmlConfig(string filename, string parent_xpath,string childnodename,string value)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(filename);
             XmlNodeList nodes = doc.SelectNodes(parent_xpath);
-            foreach (XmlNode node in nodes)
-            {
-                if (node.SelectSingleNode(childnodename).InnerText.Trim()==value)
+            if (nodes != null)
+                foreach (XmlNode node in nodes)
                 {
-                    node.ParentNode.RemoveChild(node);
-                    break;
+                    var selectSingleNode = node.SelectSingleNode(childnodename);
+                    if (selectSingleNode != null && selectSingleNode.InnerText.Trim()==value)
+                    {
+                        if (node.ParentNode != null) node.ParentNode.RemoveChild(node);
+                        break;
+                    }
+                }
+            doc.Save(filename);
+        }
+        private void MoveXmlConfig(string filename, string xpath,string upordown)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(filename);
+            var n1 = doc.SelectSingleNode(xpath);
+            if (n1 != null)
+            {
+                if (upordown == "down")
+                {
+                    if (n1.ParentNode != null) n1.ParentNode.InsertBefore(n1, n1.PreviousSibling);
+                }
+                else if(upordown=="up")
+                {
+                    if (n1.ParentNode != null) n1.ParentNode.InsertAfter(n1, n1.NextSibling);
                 }
             }
             doc.Save(filename);
@@ -378,9 +497,16 @@ namespace CodeNote
             doc.Load(filename);
             XmlNode tomatosNode=doc.SelectSingleNode(xpath);
             
-            TomatoList list = new TomatoList();
-            list.Id = Convert.ToInt32(tomatosNode.LastChild.SelectSingleNode("id").InnerText) + 1;
-            list.Datetime=DateTime.Now.ToString("yyyy-MM-dd hh:ss:mm");
+            domain.tomato.TomatoList list = new domain.tomato.TomatoList();
+            if (tomatosNode != null && tomatosNode.LastChild!=null && tomatosNode.LastChild.SelectSingleNode("id") != null)
+            {
+                list.Id = Convert.ToInt32(tomatosNode.LastChild.SelectSingleNode("id").InnerText) + 1;
+            }
+            else
+            {
+                list.Id = 1;
+            }
+            list.Datetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             XmlNode newNode = doc.CreateElement("tomato");
             newNode.InnerXml = "<id>" + list.Id + "</id><datetime>" + list.Datetime + "</datetime>";
             tomatosNode.AppendChild(newNode);
@@ -392,14 +518,27 @@ namespace CodeNote
          */ 
         private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TomatoTask selectedTask=(TomatoTask)task_list.SelectedValue;
-            int id=selectedTask.Id;
+            string id=((ContextMenuStrip)((ToolStripMenuItem)sender).GetCurrentParent()).SourceControl.Name.Replace("label_","");
             
-            DelXmlConfig("config/tomato_list.xml", "/list/task","id",Convert.ToString(id));
-            tasklist.Remove(task_list.SelectedValue);
-            task_list.DataSource = null;
-            task_list.DataSource = tasklist;
+            DelXmlConfig("config/tomato_list.xml", "/list/task","id",id);
+            ReloadList(true);
         }
+        private void 上移ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string id = ((ContextMenuStrip)((ToolStripMenuItem)sender).GetCurrentParent()).SourceControl.Name.Replace("label_", "");
+
+            MoveXmlConfig("config/tomato_list.xml", "/list/task[id=" + id + "]", "up");
+            ReloadList(true);
+        }
+
+        private void 下移ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string id = ((ContextMenuStrip)((ToolStripMenuItem)sender).GetCurrentParent()).SourceControl.Name.Replace("label_", "");
+
+            MoveXmlConfig("config/tomato_list.xml", "/list/task[id=" + id + "]", "down");
+            ReloadList(true);
+        }
+
 
         /**
          * 单击通知栏图标
@@ -407,22 +546,22 @@ namespace CodeNote
         private void CodeNoteTomato_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left) { 
-                if (this.Visible)
+                if (Visible)
                 {
-                    this.Hide();
+                    Hide();
                 }
                 else
                 {
-                    this.Show();
-                    this.Activate();
+                    Show();
+                    Activate();
                 }
             }
         }
 
         private void 打开ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Show();
-            this.Activate();
+            Show();
+            Activate();
         }
 
         private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -436,16 +575,16 @@ namespace CodeNote
 
         private void Tomato_work_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.Hide();
+            Hide();
             e.Cancel = true;
         }
 
         private void Tomato_work_Resize(object sender, EventArgs e)
         {
-            if (this.WindowState == FormWindowState.Minimized)
+            if (WindowState == FormWindowState.Minimized)
             {
-                this.WindowState = FormWindowState.Normal;
-                this.Hide();
+                WindowState = FormWindowState.Normal;
+                Hide();
             }
         }
 
@@ -458,10 +597,10 @@ namespace CodeNote
 
         private void 首选项ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (tomato_setting == null || tomato_setting.IsDisposed)
+            if (_tomatoSetting == null || _tomatoSetting.IsDisposed)
             {
-                tomato_setting = new Tomato_setting(this);
-                tomato_setting.Show();
+                _tomatoSetting = new Tomato_setting(this);
+                _tomatoSetting.Show();
             }
         }
 
@@ -470,23 +609,23 @@ namespace CodeNote
          */ 
         private void 置顶ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-                isTop = !isTop;
-                置顶ToolStripMenuItem.Text = isTop ? "取消置顶" : "置顶";
-                this.TopMost = isTop;
+                _isTop = !_isTop;
+                置顶ToolStripMenuItem.Text = _isTop ? "取消置顶" : "置顶";
+                TopMost = _isTop;
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            if (tomato_list == null || tomato_list.IsDisposed)
+            if (_tomatoList == null || _tomatoList.IsDisposed)
             {
-                tomato_list = new Tomato_list(this);
-                tomato_list.Show();
+                _tomatoList = new TomatoList(this);
+                _tomatoList.Show();
             }
         }
 
         private void task_list_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            int id = ((TomatoTask)tasklist[e.Index]).Id;
+            int id = ((TomatoTask)Tasklist[e.Index]).Id;
             XmlDocument doc = new XmlDocument();
             doc.Load("config/tomato_list.xml");
             doc.SelectSingleNode("/list/task[id="+id+"]").SelectSingleNode("state").InnerText=(e.NewValue==CheckState.Checked?"1":"0"); 
@@ -495,10 +634,10 @@ namespace CodeNote
 
         private void fqToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (tomato_fq == null || tomato_fq.IsDisposed)
+            if (_tomatoFq == null || _tomatoFq.IsDisposed)
             {
-                tomato_fq = new Tomato_fq(this);
-                tomato_fq.Show();
+                _tomatoFq = new TomatoFq(this);
+                _tomatoFq.Show();
             }
             
         }
@@ -514,10 +653,10 @@ namespace CodeNote
 
         private void OpenMiniWnd()
         {
-            if (tomato_miniWnd == null || tomato_miniWnd.IsDisposed)
+            if (_tomatoMiniWnd == null || _tomatoMiniWnd.IsDisposed)
             {
-                tomato_miniWnd = new Tomato_miniWnd(this);
-                tomato_miniWnd.Show();
+                _tomatoMiniWnd = new Tomato_miniWnd(this);
+                _tomatoMiniWnd.Show();
             }
         }
 
@@ -532,6 +671,8 @@ namespace CodeNote
             get { return now_state_lb.Text; }
             set { now_state_lb.Text = value; }
         }
+
+        
 
     }
 }

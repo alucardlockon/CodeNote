@@ -1,6 +1,6 @@
-﻿namespace CodeNote
+﻿namespace CodeNote.tomato
 {
-    partial class Tomato_list
+    partial class TomatoList
     {
         /// <summary>
         /// Required designer variable.
@@ -48,7 +48,7 @@
             this.ClientSize = new System.Drawing.Size(309, 439);
             this.Controls.Add(this.lv_his);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Name = "Tomato_list";
+            this.Name = "TomatoList";
             this.Text = "历史记录";
             this.Load += new System.EventHandler(this.Tomato_list_Load);
             this.ResumeLayout(false);
