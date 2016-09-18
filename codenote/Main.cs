@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CodeNote.tomato;
 using CodeNote.whitenoise;
+using Microsoft.Win32;
 
 namespace CodeNote
 {
@@ -31,11 +32,23 @@ namespace CodeNote
              ControlStyles.SupportsTransparentBackColor,    // 控件接受 alpha 组件小于 255 的 BackColor 以模拟透明
              true);                                         // 设置以上值为 true
             base.UpdateStyles();
+
+            //注册表项目
+            RegistryKey key = Registry.CurrentUser;
+            RegistryKey software = key.OpenSubKey("SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_BROWSER_EMULATION", true); //该项必须已存在
+            if (software == null)
+            {
+                software = key.CreateSubKey("SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_BROWSER_EMULATION");
+                if (software != null) software.SetValue("CodeNote.exe", 11001, RegistryValueKind.DWord);
+            }
+            key.Close();
+
         }
 
         private void Main_Load(object sender, EventArgs e)
         {
-            mainEditor.Navigate(System.Environment.CurrentDirectory.ToString() + @"\html\default.html");
+            
+            mainEditor.Navigate(System.Environment.CurrentDirectory.ToString() + @"\html\index.html");
             
             //绑定树形菜单
             BindFileList();
@@ -124,11 +137,13 @@ namespace CodeNote
             var tn = new List<TreeNode>();
             foreach (FileInfo finfo in rootfinfos)
             {
-                var treeNode = new TreeNode();
-                treeNode.ImageKey = "file";
-                treeNode.SelectedImageKey = "file";
-                treeNode.Text = finfo.Name;
-                tn.Add(treeNode);
+                if (finfo.Extension == ".md" || finfo.Extension == ".html") { 
+                    var treeNode = new TreeNode();
+                    treeNode.ImageKey = "file";
+                    treeNode.SelectedImageKey = "file";
+                    treeNode.Text = finfo.Name;
+                    tn.Add(treeNode);
+                }
             }
             tnd.AddRange(tn);
             return (TreeNode[])tnd.ToArray();
@@ -154,6 +169,18 @@ namespace CodeNote
             {
                 wn.Show();
             }
+        }
+
+        private void fileList_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            string path = "notedata\\" + fileList.SelectedNode.FullPath;
+            mainEditor.Navigate(System.Environment.CurrentDirectory.ToString() +"\\"+ path);
+
+        }
+
+        private void 刷新ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mainEditor.Refresh(WebBrowserRefreshOption.Completely);
         }
 
     }

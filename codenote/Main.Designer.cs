@@ -40,8 +40,11 @@
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.首选项ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.查看笔记ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.编辑ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.番茄工作ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开番茄工作面板CtrlShiftTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.白噪音ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainEditor = new System.Windows.Forms.WebBrowser();
@@ -52,7 +55,7 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.fileList = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.白噪音ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.刷新ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.cmenus_notifybar.SuspendLayout();
             this.SuspendLayout();
@@ -63,7 +66,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.listView1.Location = new System.Drawing.Point(-5366, 31);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(241, 494);
+            this.listView1.Size = new System.Drawing.Size(241, 531);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             // 
@@ -77,7 +80,7 @@
             this.帮助ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1002, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(1404, 25);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -127,7 +130,10 @@
             // 编辑ToolStripMenuItem
             // 
             this.编辑ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.首选项ToolStripMenuItem});
+            this.首选项ToolStripMenuItem,
+            this.查看笔记ToolStripMenuItem,
+            this.编辑ToolStripMenuItem1,
+            this.刷新ToolStripMenuItem});
             this.编辑ToolStripMenuItem.Name = "编辑ToolStripMenuItem";
             this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.编辑ToolStripMenuItem.Text = "编辑";
@@ -137,6 +143,18 @@
             this.首选项ToolStripMenuItem.Name = "首选项ToolStripMenuItem";
             this.首选项ToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.首选项ToolStripMenuItem.Text = "首选项(&O)";
+            // 
+            // 查看笔记ToolStripMenuItem
+            // 
+            this.查看笔记ToolStripMenuItem.Name = "查看笔记ToolStripMenuItem";
+            this.查看笔记ToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.查看笔记ToolStripMenuItem.Text = "查看笔记";
+            // 
+            // 编辑ToolStripMenuItem1
+            // 
+            this.编辑ToolStripMenuItem1.Name = "编辑ToolStripMenuItem1";
+            this.编辑ToolStripMenuItem1.Size = new System.Drawing.Size(130, 22);
+            this.编辑ToolStripMenuItem1.Text = "编辑";
             // 
             // 番茄工作ToolStripMenuItem
             // 
@@ -153,6 +171,13 @@
             this.打开番茄工作面板CtrlShiftTToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.打开番茄工作面板CtrlShiftTToolStripMenuItem.Text = "打开番茄工作面板(&T)";
             this.打开番茄工作面板CtrlShiftTToolStripMenuItem.Click += new System.EventHandler(this.打开番茄工作面板CtrlShiftTToolStripMenuItem_Click);
+            // 
+            // 白噪音ToolStripMenuItem
+            // 
+            this.白噪音ToolStripMenuItem.Name = "白噪音ToolStripMenuItem";
+            this.白噪音ToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.白噪音ToolStripMenuItem.Text = "白噪音工具(&W)";
+            this.白噪音ToolStripMenuItem.Click += new System.EventHandler(this.白噪音ToolStripMenuItem_Click);
             // 
             // 帮助ToolStripMenuItem
             // 
@@ -178,7 +203,7 @@
             this.mainEditor.MinimumSize = new System.Drawing.Size(20, 20);
             this.mainEditor.Name = "mainEditor";
             this.mainEditor.ScriptErrorsSuppressed = true;
-            this.mainEditor.Size = new System.Drawing.Size(796, 494);
+            this.mainEditor.Size = new System.Drawing.Size(1198, 531);
             this.mainEditor.TabIndex = 5;
             this.mainEditor.Url = new System.Uri("", System.UriKind.Relative);
             this.mainEditor.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.mainEditor_DocumentCompleted);
@@ -222,13 +247,16 @@
             // 
             // fileList
             // 
+            this.fileList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.fileList.ImageKey = "file";
             this.fileList.ImageList = this.imageList1;
             this.fileList.Location = new System.Drawing.Point(0, 31);
             this.fileList.Name = "fileList";
             this.fileList.SelectedImageIndex = 0;
-            this.fileList.Size = new System.Drawing.Size(200, 494);
+            this.fileList.Size = new System.Drawing.Size(200, 531);
             this.fileList.TabIndex = 6;
+            this.fileList.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.fileList_NodeMouseDoubleClick);
             // 
             // imageList1
             // 
@@ -237,18 +265,18 @@
             this.imageList1.Images.SetKeyName(0, "file");
             this.imageList1.Images.SetKeyName(1, "folder");
             // 
-            // 白噪音ToolStripMenuItem
+            // 刷新ToolStripMenuItem
             // 
-            this.白噪音ToolStripMenuItem.Name = "白噪音ToolStripMenuItem";
-            this.白噪音ToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.白噪音ToolStripMenuItem.Text = "白噪音工具";
-            this.白噪音ToolStripMenuItem.Click += new System.EventHandler(this.白噪音ToolStripMenuItem_Click);
+            this.刷新ToolStripMenuItem.Name = "刷新ToolStripMenuItem";
+            this.刷新ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.刷新ToolStripMenuItem.Text = "刷新";
+            this.刷新ToolStripMenuItem.Click += new System.EventHandler(this.刷新ToolStripMenuItem_Click);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1002, 528);
+            this.ClientSize = new System.Drawing.Size(1404, 565);
             this.Controls.Add(this.fileList);
             this.Controls.Add(this.mainEditor);
             this.Controls.Add(this.listView1);
@@ -293,6 +321,9 @@
         private System.Windows.Forms.TreeView fileList;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ToolStripMenuItem 白噪音ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 编辑ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem 查看笔记ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 刷新ToolStripMenuItem;
     }
 }
 

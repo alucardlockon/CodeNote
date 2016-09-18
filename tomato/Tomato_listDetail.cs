@@ -73,10 +73,10 @@ namespace CodeNote.tomato
             {
                 _NowTask.Sublist = subliststring;
             }
-
+            
             task.Sublist = _NowTask.Sublist;
             SetTaskList("config/tomato_list.xml", "/list/task[id=" + _NowTask.Id + "]",task);
-            _tomatoWork.ReloadList(false);
+            _tomatoWork.ReloadList(true);
             
             this.Close();
             this.Dispose();
