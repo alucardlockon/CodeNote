@@ -142,6 +142,7 @@ namespace CodeNote
                     treeNode.ImageKey = "file";
                     treeNode.SelectedImageKey = "file";
                     treeNode.Text = finfo.Name;
+                    treeNode.Tag = finfo.FullName;
                     tn.Add(treeNode);
                 }
             }
@@ -171,17 +172,52 @@ namespace CodeNote
             }
         }
 
+        //双击文件节点
         private void fileList_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            string path = "notedata\\" + fileList.SelectedNode.FullPath;
-            mainEditor.Navigate(System.Environment.CurrentDirectory.ToString() +"\\"+ path);
-
+            if (fileList.SelectedNode != null)
+            {
+                string path = "notedata\\" + fileList.SelectedNode.FullPath;
+                mainEditor.Navigate(System.Environment.CurrentDirectory.ToString() +"\\"+ path);
+            }
         }
 
         private void 刷新ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             mainEditor.Refresh(WebBrowserRefreshOption.Completely);
+            fileList.Nodes.Clear();
+            BindFileList();
         }
+
+        private void fileList_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (fileList.SelectedNode != null)
+                {
+                    string path = "notedata\\" + ((TreeNode)(e.Item)).FullPath;
+                    var files = new string[1];
+                    files[0] = System.Environment.CurrentDirectory.ToString() + "\\" + path;
+                    DataObject data = new DataObject(DataFormats.FileDrop, files);
+                    data.SetData(DataFormats.StringFormat, files[0]);  
+                    fileList.DoDragDrop(data, DragDropEffects.Copy);
+                }
+            }
+        }
+
+        private void 新建NToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mainEditor.Navigate("about:blank");
+            mainEditor.Navigate(System.Environment.CurrentDirectory.ToString() + @"\html\index.html");
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("iexplore.exe", "https://github.com/alucardlockon/CodeNote");
+        }
+
+        
+
 
     }
 }
