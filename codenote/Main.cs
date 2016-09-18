@@ -11,12 +11,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CodeNote.tomato;
+using CodeNote.whitenoise;
 
 namespace CodeNote
 {
     public partial class Main : Form
     {
-        private static TomatoWork tw; 
+        private static TomatoWork tw;
+        private static Whitenoise wn;
 
         public Main()
         {
@@ -139,6 +141,19 @@ namespace CodeNote
             if (m.Msg == 0x0014) // 禁掉清除背景消息
                 return;
             base.WndProc(ref m);
+        }
+
+        private void 白噪音ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (wn == null || wn.IsDisposed)
+            {
+                wn = new Whitenoise();
+                wn.Show();
+            }
+            else if (wn != null && wn.Visible == false)
+            {
+                wn.Show();
+            }
         }
 
     }
