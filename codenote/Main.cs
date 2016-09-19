@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CodeNote.tomato;
 using CodeNote.whitenoise;
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
+using System.Xml;
+using CodeNote.codenote;
 
 namespace CodeNote
 {
@@ -24,6 +19,10 @@ namespace CodeNote
     {
         private static TomatoWork tw;
         private static Whitenoise wn;
+        private static Gist_settings _gistSettings;
+        private static Gist_add _gist;
+        private static Settings _settings;
+        private static Gist_download _gistDownload;
 
         public Main()
         {
@@ -198,7 +197,7 @@ namespace CodeNote
                     Console.WriteLine(ex.ToString());
                 }
                 mainEditor.Document.InvokeScript("loadLocalFile", new object[] { path, fileList.SelectedNode.Text,content });
-
+                this.Text = fileList.SelectedNode.Text+"-CodeNote";
             }
         }
 
@@ -261,7 +260,6 @@ namespace CodeNote
             Point point = new Point(e.X, e.Y);
             TreeNode tn = fileList.GetNodeAt(point);
             fileList.SelectedNode = tn;
-            
         }
 
         //编辑模式切换
@@ -280,7 +278,211 @@ namespace CodeNote
             mainEditor.Document.InvokeScript("setEditorMode", new object[] { 3 });
         }
 
-        
+        //文件管理
+        private void 上传代码片段ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(System.Environment.CurrentDirectory.ToString() + @"\filedata\snippets");
+        }
+
+        private void 上传代码文件ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(System.Environment.CurrentDirectory.ToString() + @"\filedata\codes");
+        }
+
+        private void 上传模板ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(System.Environment.CurrentDirectory.ToString() + @"\filedata\models");
+        }
+
+        private void 上传项目文件ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(System.Environment.CurrentDirectory.ToString() + @"\filedata\projects");
+        }
+
+        private void 上传工具ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(System.Environment.CurrentDirectory.ToString() + @"\filedata\utils");
+        }
+
+        //用编辑器打开
+        private void 用atom打开ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (fileList.SelectedNode != null)
+            {
+                string path = "notedata\\" + fileList.SelectedNode.FullPath;
+                try
+                {
+                    string editorpath = GetXmlConfig("config/codenote_settings.xml", "/setting/atom-bin");
+                    System.Diagnostics.Process.Start(editorpath, System.Environment.CurrentDirectory.ToString() + @"\" + path);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+        }
+
+        private void 用sublime打开ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (fileList.SelectedNode != null)
+            {
+                string path = "notedata\\" + fileList.SelectedNode.FullPath;
+                try
+                {
+                    string editorpath = GetXmlConfig("config/codenote_settings.xml", "/setting/sublime-bin");
+                    System.Diagnostics.Process.Start(editorpath, System.Environment.CurrentDirectory.ToString() + @"\" + path);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+        }
+
+        private void 用notepadd打开ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (fileList.SelectedNode != null)
+            {
+                string path = "notedata\\" + fileList.SelectedNode.FullPath;
+                try
+                {
+                    string editorpath = GetXmlConfig("config/codenote_settings.xml", "/setting/npp-bin");
+                    System.Diagnostics.Process.Start(editorpath, System.Environment.CurrentDirectory.ToString() + @"\" + path);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+        }
+
+        private string GetXmlConfig(string filename, string xpath)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(filename);
+            var selectSingleNode = doc.SelectSingleNode(xpath);
+            if (selectSingleNode != null) return selectSingleNode.InnerText.Trim();
+            return null;
+        }
+        private void SetXmlConfig(string filename, string xpath, string value)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(filename);
+            var n1 = doc.SelectSingleNode(xpath);
+            if (n1 != null) n1.InnerText = value.Trim();
+            doc.Save(filename);
+        }
+
+        private void 首选项ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_settings == null || _settings.IsDisposed)
+            {
+                _settings = new Settings();
+                _settings.Show();
+            }
+            else if (_settings != null && _settings.Visible == false)
+            {
+                _settings.Show();
+            }
+        }
+
+        private void gist设置ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_gistSettings == null || _gistSettings.IsDisposed)
+            {
+                _gistSettings = new Gist_settings();
+                _gistSettings.Show();
+            }
+            else if (_gistSettings != null && _gistSettings.Visible == false)
+            {
+                _gistSettings.Show();
+            }
+        }
+
+        private void 上传gistToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_gist == null || _gist.IsDisposed)
+            {
+                _gist = new Gist_add();
+                _gist.Show();
+            }
+            else if (_gist != null && _gist.Visible == false)
+            {
+                _gist.Show();
+            }
+        }
+
+        private void 下载gistToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_gistDownload == null || _gistDownload.IsDisposed)
+            {
+                _gistDownload = new Gist_download();
+                _gistDownload.Show();
+            }
+            else if (_gistDownload != null && _gistDownload.Visible == false)
+            {
+                _gistDownload.Show();
+            }
+        }
+
+        private void 打开gist页面ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string page = GetXmlConfig("config/codenote_gists.xml", "/gists/page");
+            System.Diagnostics.Process.Start("iexplore.exe", page);
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+            Application.ExitThread();
+        }
+
+        private void 打开ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Show();
+            Activate();
+        }
+
+        private void 打开番茄工具ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            打开番茄工作面板CtrlShiftTToolStripMenuItem_Click(sender, e);
+        }
+
+        private void 首选项ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            首选项ToolStripMenuItem_Click(sender, e);
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Hide();
+            e.Cancel = true;
+        }
+
+        private void CodeNoteIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (Visible)
+                {
+                    Hide();
+                }
+                else
+                {
+                    Show();
+                    Activate();
+                }
+            }
+        }
+
+        private void Main_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                WindowState = FormWindowState.Normal;
+                Hide();
+            }
+        }
 
 
     }

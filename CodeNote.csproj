@@ -92,6 +92,30 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="codenote\Gist_add.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="codenote\Gist_add.Designer.cs">
+      <DependentUpon>Gist_add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="codenote\Gist_download.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="codenote\Gist_download.Designer.cs">
+      <DependentUpon>Gist_download.cs</DependentUpon>
+    </Compile>
+    <Compile Include="codenote\Gist_settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="codenote\Gist_settings.Designer.cs">
+      <DependentUpon>Gist_settings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="codenote\Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="codenote\Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
     <Compile Include="domain\tomato\override.cs" />
     <Compile Include="domain\tomato\TomatoCfg.cs" />
     <Compile Include="domain\tomato\TomatoList.cs" />
@@ -149,8 +173,17 @@
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="codenote\Gist_add.resx">
+      <DependentUpon>Gist_add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="codenote\Gist_settings.resx">
+      <DependentUpon>Gist_settings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="codenote\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="codenote\Settings.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -232,6 +265,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="codenote.ico" />
+    <Content Include="config\codenote_settings.xml" />
+    <Content Include="config\codenote_gists.xml" />
     <Content Include="config\tomato_url.xml" />
     <Content Include="config\tomato_user.xml">
       <SubType>Designer</SubType>

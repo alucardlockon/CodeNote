@@ -3,10 +3,10 @@
 
 <head>
     <title>Markdown Editor</title>
+    <script src="jquery.min.js"></script>
     <script src="markdown-it.js"></script>
     <script src="markdown-it-footnote.js"></script>
     <script src="highlight.pack.js"></script>
-    <script src="emojify.js"></script>
     <script src="codemirror/lib/codemirror.js"></script>
     <script src="codemirror/overlay.js"></script>
     <script src="codemirror/xml/xml.js"></script>
@@ -135,11 +135,11 @@
         
         @media screen and (max-width: 1024px) {
             #in {
-                display: none;
+              display: none;
             }
             #out {
-                left: 0;
-                padding-left: 10px;
+              left: 0;
+              padding-left: 10px;                
             }
         }
         
@@ -361,9 +361,10 @@
 <body>
     <div id="in">
         <form>
+<!-- insert text here -->
 <textarea id="code">
-# Title          
-```
+# Title
+``` javascript
 
 ```
 </textarea>
@@ -403,10 +404,6 @@
             html: 'xml'
         };
 
-        emojify.setConfig({
-            img_dir: 'emoji'
-        });
-
         var md = markdownit({
                 html: true,
                 highlight: function(code, lang) {
@@ -438,7 +435,6 @@
             var out = document.getElementById('out');
             var old = out.cloneNode(true);
             out.innerHTML = md.render(val);
-            emojify.run(out);
 
             var allold = old.getElementsByTagName("*");
             if (allold === undefined) return;
@@ -478,10 +474,43 @@
 
             reader.readAsText(e.dataTransfer.files[0]);
         }, false);
-
+        
+        function loadLocalFile(path,filename,content){
+            editor.setValue(content);
+        }
+        
         function saveAsMarkdown() {
             save(editor.getValue(), "untitled.md");
         }
+        
+        function saveAsMarkdown(filename) {
+            save(editor.getValue(), filename);
+        }
+        
+        function saveToLocalFile(path,filename) {
+            window.external.SaveNote(path,filename,editor.getValue());
+        }
+        
+        //1:所见即所得,2:查看,3:编辑
+        function setEditorMode(modeFlag){
+          if(modeFlag==1){
+            $('#in').show(2);
+            $('#in').width="50%";
+            $('#out').show(2);
+            $('#out').width="50%";
+          }else if(modeFlag==2){
+            $('#in').hide(2);
+            $('#in').width="0%";
+            $('#out').show(2);
+            $('#out').width="100%";
+          }else if(modeFlag==3){
+            $('#in').show(2);
+            $('#in').width="100%";
+            $('#out').hide(2);
+            $('#out').width="0%";
+          }
+        }
+        
 
         function saveAsHtml() {
             save(document.getElementById('out').innerHTML, "untitled.html");
