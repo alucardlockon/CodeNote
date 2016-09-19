@@ -4,10 +4,22 @@ A note windows program for who often forget thier codes...
 
 All Resouce are from internet,if you have any question,Please email to alucardlockon3@gmmail.com  
 
-番茄小工具app： 
-20160916: updated to v1.3
+### CodeNote:
+20160918: updated to v1.0
+* 支持新建笔记/编辑等操作
+* 支持markdown，使用github markdown渲染,使用https://github.com/jbt/markdown-editor
+* 支持gist上传/下载/删除操作
+* 支持文件保存管理
+* 支持项目保存管理（同上）
 
-#### v1.3 20160916:
+### 白噪音小工具app:
+20160918:updated to v1.0
+* 调用windows media,文件夹下所有音乐播放
+
+### 番茄小工具app： 
+20160918: updated to v1.3
+
+#### v1.3 20160918:
 * bug:历史记录日期格式不正确
 * bug:任务列表点击空白会选中
 * bug:悬浮窗有时唤醒不了主界面

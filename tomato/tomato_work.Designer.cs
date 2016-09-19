@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TomatoWork));
             this.cmenus_task_list = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.上移ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.下移ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripButton();
@@ -62,8 +64,6 @@
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nowProgress = new System.Windows.Forms.ProgressBar();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.上移ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.下移ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmenus_task_list.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.cmenus_settings.SuspendLayout();
@@ -77,7 +77,21 @@
             this.下移ToolStripMenuItem,
             this.删除ToolStripMenuItem});
             this.cmenus_task_list.Name = "cmenus_task_list";
-            this.cmenus_task_list.Size = new System.Drawing.Size(153, 92);
+            this.cmenus_task_list.Size = new System.Drawing.Size(101, 70);
+            // 
+            // 上移ToolStripMenuItem
+            // 
+            this.上移ToolStripMenuItem.Name = "上移ToolStripMenuItem";
+            this.上移ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.上移ToolStripMenuItem.Text = "上移";
+            this.上移ToolStripMenuItem.Click += new System.EventHandler(this.上移ToolStripMenuItem_Click);
+            // 
+            // 下移ToolStripMenuItem
+            // 
+            this.下移ToolStripMenuItem.Name = "下移ToolStripMenuItem";
+            this.下移ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.下移ToolStripMenuItem.Text = "下移";
+            this.下移ToolStripMenuItem.Click += new System.EventHandler(this.下移ToolStripMenuItem_Click);
             // 
             // 删除ToolStripMenuItem
             // 
@@ -149,7 +163,6 @@
             this.toolStripMenuItem2,
             this.退出ToolStripMenuItem1});
             this.cmenus_settings.Name = "cmenus_settings";
-            this.cmenus_settings.OwnerItem = this.toolStripLabel4;
             this.cmenus_settings.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.cmenus_settings.Size = new System.Drawing.Size(137, 136);
             // 
@@ -306,7 +319,6 @@
             this.CodeNoteTomato.ContextMenuStrip = this.cmenus_notifybar;
             this.CodeNoteTomato.Icon = ((System.Drawing.Icon)(resources.GetObject("CodeNoteTomato.Icon")));
             this.CodeNoteTomato.Text = "Tomato";
-            this.CodeNoteTomato.Visible = true;
             this.CodeNoteTomato.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CodeNoteTomato_MouseClick);
             // 
             // cmenus_notifybar
@@ -354,20 +366,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(272, 323);
             this.panel1.TabIndex = 14;
-            // 
-            // 上移ToolStripMenuItem
-            // 
-            this.上移ToolStripMenuItem.Name = "上移ToolStripMenuItem";
-            this.上移ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.上移ToolStripMenuItem.Text = "上移";
-            this.上移ToolStripMenuItem.Click += new System.EventHandler(this.上移ToolStripMenuItem_Click);
-            // 
-            // 下移ToolStripMenuItem
-            // 
-            this.下移ToolStripMenuItem.Name = "下移ToolStripMenuItem";
-            this.下移ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.下移ToolStripMenuItem.Text = "下移";
-            this.下移ToolStripMenuItem.Click += new System.EventHandler(this.下移ToolStripMenuItem_Click);
             // 
             // TomatoWork
             // 
