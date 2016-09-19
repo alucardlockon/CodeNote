@@ -13,9 +13,13 @@ using System.Windows.Forms;
 using CodeNote.tomato;
 using CodeNote.whitenoise;
 using Microsoft.Win32;
+using System.Runtime.InteropServices;
+using System.Security.Permissions;
 
 namespace CodeNote
 {
+    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+    [ComVisible(true)]//com+可见
     public partial class Main : Form
     {
         private static TomatoWork tw;
@@ -47,7 +51,7 @@ namespace CodeNote
 
         private void Main_Load(object sender, EventArgs e)
         {
-            
+            mainEditor.ObjectForScripting = this;
             mainEditor.Navigate(System.Environment.CurrentDirectory.ToString() + @"\html\index.html");
             
             //绑定树形菜单
@@ -178,9 +182,36 @@ namespace CodeNote
             if (fileList.SelectedNode != null)
             {
                 string path = "notedata\\" + fileList.SelectedNode.FullPath;
-                mainEditor.Navigate(System.Environment.CurrentDirectory.ToString() +"\\"+ path);
+                string content = "";
+                FileInfo fi=new FileInfo(System.Environment.CurrentDirectory.ToString() +"\\"+path);
+                try
+                {
+                    FileStream fs = fi.OpenRead();
+                    int fsLen = (int)fs.Length;
+                    byte[] heByte = new byte[fsLen];
+                    int r = fs.Read(heByte, 0, heByte.Length);
+                    content = System.Text.Encoding.UTF8.GetString(heByte);
+                    fs.Close();
+                }
+                catch (IOException ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+                mainEditor.Document.InvokeScript("loadLocalFile", new object[] { path, fileList.SelectedNode.Text,content });
+
             }
         }
+
+        public void SaveNote(string path,string name,string content)
+        {
+            FileInfo fi=new FileInfo(System.Environment.CurrentDirectory.ToString() +"\\"+path);
+            FileStream fs = fi.OpenWrite();
+            byte[] data = System.Text.Encoding.Default.GetBytes(content); 
+            fs.Write(data,0,data.Length);
+            fs.Flush();
+            fs.Close();
+        }
+
 
         private void 刷新ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -214,6 +245,39 @@ namespace CodeNote
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("iexplore.exe", "https://github.com/alucardlockon/CodeNote");
+        }
+
+        private void 保存SToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (fileList.SelectedNode != null)
+            {
+                string path = "notedata\\" + fileList.SelectedNode.FullPath;
+                mainEditor.Document.InvokeScript("saveToLocalFile", new object[] { path, fileList.SelectedNode.Text });
+            }
+        }
+
+        private void fileList_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            Point point = new Point(e.X, e.Y);
+            TreeNode tn = fileList.GetNodeAt(point);
+            fileList.SelectedNode = tn;
+            
+        }
+
+        //编辑模式切换
+        private void 所见即所得ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mainEditor.Document.InvokeScript("setEditorMode", new object[] { 1 });
+        }
+
+        private void 查看笔记ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mainEditor.Document.InvokeScript("setEditorMode", new object[] { 2 });
+        }
+
+        private void 编辑ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            mainEditor.Document.InvokeScript("setEditorMode", new object[] { 3 });
         }
 
         
