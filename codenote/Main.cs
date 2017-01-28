@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Xml;
 using CodeNote.codenote;
+using CodeNote.regextool;
 
 namespace CodeNote
 {
@@ -23,6 +24,7 @@ namespace CodeNote
         private static Gist_add _gist;
         private static Settings _settings;
         private static Gist_download _gistDownload;
+        private static regexWnd regexWnd;
 
         public Main()
         {
@@ -481,6 +483,19 @@ namespace CodeNote
             {
                 WindowState = FormWindowState.Normal;
                 Hide();
+            }
+        }
+
+        private void 正则匹配工具ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (regexWnd == null || regexWnd.IsDisposed)
+            {
+                regexWnd = new regexWnd();
+                regexWnd.Show();
+            }
+            else if (regexWnd != null && regexWnd.Visible == false)
+            {
+                regexWnd.Show();
             }
         }
 

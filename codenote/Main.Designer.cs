@@ -82,6 +82,7 @@
             this.粘贴ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.删除ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.正则匹配工具ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.cmenus_notifybar.SuspendLayout();
             this.cmenus_filelist.SuspendLayout();
@@ -319,7 +320,8 @@
             // 
             this.番茄工作ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.打开番茄工作面板CtrlShiftTToolStripMenuItem,
-            this.白噪音ToolStripMenuItem});
+            this.白噪音ToolStripMenuItem,
+            this.正则匹配工具ToolStripMenuItem});
             this.番茄工作ToolStripMenuItem.Name = "番茄工作ToolStripMenuItem";
             this.番茄工作ToolStripMenuItem.Size = new System.Drawing.Size(59, 21);
             this.番茄工作ToolStripMenuItem.Text = "工具(&T)";
@@ -510,6 +512,13 @@
             this.imageList1.Images.SetKeyName(0, "file");
             this.imageList1.Images.SetKeyName(1, "folder");
             // 
+            // 正则匹配工具ToolStripMenuItem
+            // 
+            this.正则匹配工具ToolStripMenuItem.Name = "正则匹配工具ToolStripMenuItem";
+            this.正则匹配工具ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.正则匹配工具ToolStripMenuItem.Text = "正则匹配工具";
+            this.正则匹配工具ToolStripMenuItem.Click += new System.EventHandler(this.正则匹配工具ToolStripMenuItem_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -591,6 +600,7 @@
         private System.Windows.Forms.ToolStripMenuItem 用sublime打开ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 用notepadd打开ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 首选项ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem 正则匹配工具ToolStripMenuItem;
     }
 }
 
